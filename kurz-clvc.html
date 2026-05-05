@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Claude AI – vibe coding a tvorba aplikací bez programování (CLVC). 2denní kurz, žádné programátorské znalosti nejsou potřeba. Praha, Brno, online. 9 800 Kč.">
+<title>Claude AI – vibe coding a tvorba aplikací bez programování (CLVC) | ICT Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --charcoal:   #1A1A1A;
+  --yellow:     #F5C400;
+  --yellow-hi:  #FFD700;
+  --yellow-bg:  #FFFBEB;
+  --white:      #FFFFFF;
+  --light:      #F4F6F9;
+  --mid:        #E8EBF0;
+  --border:     #D1D5DB;
+  --text:       #1A1A1A;
+  --muted:      #6B7280;
+  --radius:     10px;
+  --shadow:     0 4px 20px rgba(0,0,0,0.08);
+  --transition: 0.2s ease;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', system-ui, sans-serif; color: var(--text); background: var(--white); line-height: 1.6; font-size: 16px; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 800; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+[data-lang] { display: none; }
+[data-lang="cs"] { display: block; }
+.inline-cs, .inline-en { display: none; }
+.inline-cs { display: inline; }
+body.lang-en [data-lang="cs"] { display: none; }
+body.lang-en [data-lang="en"] { display: block; }
+body.lang-en .inline-cs { display: none; }
+body.lang-en .inline-en { display: inline; }
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.top-bar { background: var(--charcoal); color: #9CA3AF; font-size: 13px; padding: 8px 0; border-bottom: 2px solid var(--yellow); }
+.top-bar .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.top-bar a { color: #9CA3AF; transition: color var(--transition); }
+.top-bar a:hover { color: var(--yellow); }
+.top-bar-left { display: flex; gap: 20px; align-items: center; }
+.top-bar-right { display: flex; gap: 16px; align-items: center; }
+.lang-switcher { display: flex; gap: 4px; }
+.lang-btn { padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #444; color: #9CA3AF; background: transparent; transition: all var(--transition); font-family: inherit; }
+.lang-btn.active, .lang-btn:hover { background: var(--yellow); color: var(--charcoal); border-color: var(--yellow); }
+.customer-link { padding: 3px 12px; border: 1px solid #555; border-radius: 4px; font-size: 12px; transition: all var(--transition); }
+.customer-link:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav-header { background: var(--white); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
+.logo { display: flex; flex-direction: column; line-height: 1; }
+.logo-mark { font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 800; color: var(--charcoal); letter-spacing: -1px; }
+.logo-mark span { color: var(--yellow); }
+.logo-tagline { font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a { padding: 8px 12px; font-size: 14px; font-weight: 500; color: var(--charcoal); border-radius: 6px; transition: all var(--transition); white-space: nowrap; }
+.nav-links a:hover { background: var(--light); }
+.nav-links a.active { background: var(--light); color: var(--charcoal); font-weight: 700; }
+.nav-cta { background: var(--yellow) !important; color: var(--charcoal) !important; font-weight: 700 !important; padding: 10px 20px !important; border-radius: 8px !important; }
+.nav-cta:hover { background: var(--yellow-hi) !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245,196,0,0.4) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; border: none; background: transparent; }
+.hamburger span { width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all var(--transition); }
+.mobile-menu { display: none; flex-direction: column; background: var(--white); border-top: 1px solid var(--border); padding: 12px 24px 20px; }
+.mobile-menu a { padding: 12px 0; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--light); display: block; }
+.mobile-menu .nav-cta { margin-top: 12px; background: var(--yellow) !important; text-align: center; border-radius: 8px; padding: 12px !important; }
+.mobile-menu.open { display: flex; }
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+.breadcrumb-bar { background: var(--light); border-bottom: 1px solid var(--border); padding: 10px 0; }
+.breadcrumb-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.breadcrumb-inner a { color: var(--muted); transition: color var(--transition); }
+.breadcrumb-inner a:hover { color: var(--charcoal); }
+.breadcrumb-sep { color: var(--yellow); font-weight: 700; }
+.breadcrumb-inner span:last-child { color: var(--charcoal); font-weight: 600; }
+
+/* ============================================================
+   HERO (2-col: content left, booking card right)
+   ============================================================ */
+.hero-section { background: var(--white); padding: 48px 24px 56px; }
+.hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start; }
+
+/* left */
+.hero-left {}
+.course-code-badge { display: inline-block; background: var(--charcoal); color: var(--yellow); font-family: monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px; padding: 4px 12px; border-radius: 5px; margin-bottom: 16px; }
+.course-category-tag { display: inline-flex; align-items: center; gap: 6px; background: #F5F3FF; color: #5B21B6; border: 1px solid #DDD6FE; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; margin-left: 8px; }
+.hero-left h1 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--charcoal); margin-bottom: 18px; line-height: 1.15; }
+.hero-intro { font-size: 16px; color: #374151; line-height: 1.75; margin-bottom: 28px; max-width: 580px; }
+.trust-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+.trust-badge { display: flex; align-items: center; gap: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--charcoal); }
+.trust-badge .b-icon { font-size: 15px; }
+
+/* right — sticky booking card */
+.booking-card { background: var(--white); border: 2px solid var(--border); border-radius: 14px; padding: 28px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); position: sticky; top: 88px; }
+.booking-card-top { background: var(--charcoal); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; }
+.booking-card-top .label { font-size: 11px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.booking-card-top .nearest-date { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 800; color: var(--white); }
+.booking-card-top .nearest-loc { font-size: 13px; color: var(--yellow); margin-top: 2px; }
+.booking-price { margin-bottom: 18px; }
+.booking-price .price-main { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 800; color: var(--charcoal); }
+.booking-price .price-main span { font-size: 15px; font-weight: 500; color: var(--muted); }
+.booking-price .price-vat { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.btn-book { display: block; width: 100%; padding: 14px; background: var(--yellow); color: var(--charcoal); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 16px; border-radius: 8px; text-align: center; border: none; cursor: pointer; transition: all var(--transition); margin-bottom: 10px; }
+.btn-book:hover { background: var(--yellow-hi); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,196,0,0.4); }
+.btn-book-outline { display: block; width: 100%; padding: 12px; background: transparent; color: var(--charcoal); font-weight: 700; font-size: 14px; border-radius: 8px; text-align: center; border: 2px solid var(--border); cursor: pointer; transition: all var(--transition); margin-bottom: 14px; font-family: inherit; }
+.btn-book-outline:hover { border-color: var(--charcoal); }
+.booking-note { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.5; }
+.booking-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.booking-meta { display: flex; flex-direction: column; gap: 7px; }
+.booking-meta-row { display: flex; justify-content: space-between; font-size: 13px; }
+.booking-meta-row .bm-label { color: var(--muted); }
+.booking-meta-row .bm-val { font-weight: 600; color: var(--charcoal); }
+
+/* ============================================================
+   SECTION SHARED
+   ============================================================ */
+.section { padding: 72px 24px; }
+.section-light { background: var(--white); }
+.section-gray  { background: var(--light); }
+.section-dark  { background: var(--charcoal); }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-header { margin-bottom: 40px; }
+.section-header h2 { margin-bottom: 8px; }
+.section-header p { color: var(--muted); font-size: 16px; }
+.section-header.centered { text-align: center; }
+.eyebrow { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--yellow); margin-bottom: 8px; }
+
+/* ============================================================
+   SECTION 3 — LEARNING OUTCOMES
+   ============================================================ */
+.outcomes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.outcome-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 20px; display: flex; gap: 16px; align-items: flex-start; transition: all var(--transition); }
+.outcome-card:hover { border-color: var(--yellow); box-shadow: var(--shadow); }
+.outcome-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--charcoal); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.outcome-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.outcome-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ============================================================
+   SECTION 4 — TARGET AUDIENCE
+   ============================================================ */
+.persona-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
+.persona-tile { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 16px; text-align: center; transition: all var(--transition); }
+.persona-tile:hover { border-color: var(--yellow); box-shadow: var(--shadow); transform: translateY(-2px); }
+.persona-emoji { font-size: 28px; margin-bottom: 10px; }
+.persona-tile h3 { font-size: 13px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+.persona-tile p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.no-code-callout { background: var(--charcoal); border-left: 5px solid var(--yellow); border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: center; gap: 14px; }
+.no-code-callout .nc-icon { font-size: 28px; flex-shrink: 0; }
+.no-code-callout h3 { color: var(--white); font-size: 16px; margin-bottom: 2px; }
+.no-code-callout p { color: #9CA3AF; font-size: 13px; }
+
+/* ============================================================
+   SECTION 5 — CURRICULUM ACCORDION
+   ============================================================ */
+.curriculum-meta { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+.curriculum-stat { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--charcoal); }
+.curriculum-stat .cs-num { background: var(--yellow); color: var(--charcoal); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 18px; padding: 2px 10px; border-radius: 6px; }
+.accordion { display: flex; flex-direction: column; gap: 8px; }
+.acc-item { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.acc-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; background: var(--white); transition: background var(--transition); user-select: none; }
+.acc-header:hover { background: var(--light); }
+.acc-num { width: 30px; height: 30px; border-radius: 7px; background: var(--charcoal); color: var(--yellow); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.acc-title { font-weight: 700; font-size: 15px; flex: 1; }
+.acc-arrow { font-size: 18px; color: var(--muted); transition: transform var(--transition); flex-shrink: 0; }
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+.acc-item.open .acc-header { background: var(--light); }
+.acc-body { display: none; padding: 0 20px 20px 64px; background: var(--white); }
+.acc-item.open .acc-body { display: block; }
+.acc-body ul { list-style: none; }
+.acc-body ul li { font-size: 14px; color: #374151; padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+.acc-body ul li::before { content: '→'; color: var(--yellow); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* ============================================================
+   SECTION 6 — TAKEAWAYS
+   ============================================================ */
+.takeaways-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.takeaway-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; display: flex; align-items: flex-start; gap: 14px; }
+.takeaway-icon { font-size: 26px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.takeaway-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.takeaway-card p { font-size: 12px; color: var(--muted); }
+
+/* ============================================================
+   SECTION 7 — DATES
+   ============================================================ */
+.dates-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+.date-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 22px; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: all var(--transition); }
+.date-card:hover { border-color: var(--yellow); box-shadow: var(--shadow); }
+.date-card.featured { border-color: var(--yellow); background: var(--yellow-bg); }
+.date-card.featured .featured-label { display: inline-block; background: var(--yellow); color: var(--charcoal); font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+.date-info {}
+.date-str { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 800; color: var(--charcoal); margin-bottom: 6px; }
+.loc-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.loc-badge { display: inline-block; padding: 3px 9px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.badge-praha { background: #EFF6FF; color: #1D4ED8; }
+.badge-brno  { background: #F0FDF4; color: #166534; }
+.badge-online { background: #F5F3FF; color: #5B21B6; }
+.date-right { text-align: right; flex-shrink: 0; }
+.date-price { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; color: var(--charcoal); margin-bottom: 10px; }
+.date-price span { font-size: 12px; font-weight: 500; color: var(--muted); display: block; }
+.btn-order { display: inline-block; padding: 10px 20px; background: var(--yellow); color: var(--charcoal); font-weight: 800; font-size: 14px; border-radius: 8px; border: none; cursor: pointer; transition: all var(--transition); font-family: inherit; white-space: nowrap; }
+.btn-order:hover { background: var(--yellow-hi); transform: translateY(-1px); }
+.custom-card { background: var(--charcoal); border-radius: var(--radius); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.custom-card h3 { color: var(--white); font-size: 16px; margin-bottom: 4px; }
+.custom-card p { color: #9CA3AF; font-size: 13px; }
+.btn-custom { display: inline-block; padding: 12px 24px; background: transparent; color: var(--yellow); font-weight: 700; font-size: 14px; border-radius: 8px; border: 2px solid var(--yellow); cursor: pointer; transition: all var(--transition); white-space: nowrap; font-family: inherit; }
+.btn-custom:hover { background: var(--yellow); color: var(--charcoal); }
+
+/* ============================================================
+   SECTION 8 — TOOL ACCESS CALLOUT
+   ============================================================ */
+.tool-callout { background: var(--yellow-bg); border-left: 5px solid var(--yellow); border-radius: var(--radius); padding: 22px 26px; display: flex; gap: 18px; align-items: flex-start; }
+.tool-callout .tc-icon { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.tool-callout h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+.tool-callout p { font-size: 14px; color: #374151; line-height: 1.6; margin-bottom: 6px; }
+.tool-callout .tc-note { font-size: 13px; color: var(--muted); }
+
+/* ============================================================
+   SECTION 9 — PREREQUISITES / LOGISTICS
+   ============================================================ */
+.logistics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.logistics-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+.logistics-card h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+.logistics-card p, .logistics-card a { font-size: 14px; color: var(--charcoal); line-height: 1.6; }
+
+/* ============================================================
+   SECTION 10 — TESTIMONIALS
+   ============================================================ */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
+.testimonial-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 22px; box-shadow: var(--shadow); }
+.testimonial-card blockquote { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 18px; font-style: italic; position: relative; padding-left: 20px; }
+.testimonial-card blockquote::before { content: '"'; position: absolute; left: 0; top: -6px; font-size: 36px; color: var(--yellow); font-family: 'Poppins', sans-serif; font-weight: 800; line-height: 1; }
+.testimonial-author { font-size: 13px; font-weight: 700; }
+.testimonial-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.placeholder-card { background: var(--light); border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; }
+.placeholder-card p { font-size: 13px; color: var(--muted); text-align: center; line-height: 1.6; }
+.partner-logos { display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; padding: 24px 0; border-top: 1px solid var(--border); }
+.partner-logo { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 15px; color: #9CA3AF; transition: color var(--transition); }
+.partner-logo:hover { color: var(--charcoal); }
+
+/* ============================================================
+   SECTION 11 — RELATED COURSES
+   ============================================================ */
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.related-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; transition: all var(--transition); }
+.related-card:hover { border-color: var(--yellow); box-shadow: var(--shadow); transform: translateY(-2px); }
+.related-badge { display: inline-block; background: var(--charcoal); color: var(--yellow); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; font-family: monospace; letter-spacing: 0.5px; }
+.related-card h3 { font-size: 15px; margin-bottom: 8px; }
+.related-card p { font-size: 13px; color: var(--muted); flex: 1; margin-bottom: 16px; line-height: 1.6; }
+.related-link { font-size: 13px; font-weight: 700; color: var(--charcoal); display: inline-flex; align-items: center; gap: 4px; border-bottom: 1px solid var(--yellow); padding-bottom: 1px; width: fit-content; transition: gap var(--transition); }
+.related-link:hover { gap: 8px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer { background: #111111; color: #9CA3AF; padding: 64px 24px 0; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.4fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.footer-col h4 { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; }
+.footer-col p, .footer-col a { font-size: 14px; line-height: 1.8; display: block; margin-bottom: 4px; }
+.footer-col a:hover { color: var(--yellow); }
+.footer-col a.footer-active { color: var(--yellow); border-bottom: 2px solid var(--yellow); padding-bottom: 1px; display: inline-block; }
+.footer-logo .logo-mark { font-size: 24px; color: var(--white); }
+.footer-logo .logo-mark span { color: var(--yellow); }
+.footer-logo .logo-tagline { color: #555; }
+.footer-logo { margin-bottom: 16px; }
+.social-links { display: flex; gap: 10px; margin-top: 16px; }
+.social-link { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #9CA3AF; transition: all var(--transition); }
+.social-link:hover { background: var(--yellow); color: var(--charcoal); border-color: var(--yellow); }
+.mini-form input[type="text"] { width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: var(--white); font-size: 14px; margin-bottom: 10px; font-family: inherit; transition: border-color var(--transition); }
+.mini-form input[type="text"]:focus { outline: none; border-color: var(--yellow); }
+.mini-form input[type="text"]::placeholder { color: #555; }
+.mini-form button { width: 100%; padding: 11px; background: var(--yellow); color: var(--charcoal); font-weight: 700; font-size: 14px; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: background var(--transition); }
+.mini-form button:hover { background: var(--yellow-hi); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 13px; flex-wrap: wrap; gap: 8px; }
+.footer-legal { display: flex; gap: 16px; flex-wrap: wrap; }
+.footer-legal a:hover { color: var(--yellow); }
+
+/* ============================================================
+   MOBILE FIXED BOOKING BAR
+   ============================================================ */
+.mobile-booking-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 2px solid var(--yellow); padding: 12px 20px; z-index: 200; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); }
+.mbb-info .mbb-date { font-size: 13px; font-weight: 700; color: var(--charcoal); }
+.mbb-info .mbb-price { font-size: 12px; color: var(--muted); }
+.mbb-btn { background: var(--yellow); color: var(--charcoal); font-weight: 800; font-size: 14px; padding: 11px 22px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; transition: background var(--transition); }
+.mbb-btn:hover { background: var(--yellow-hi); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .booking-card { position: static; }
+  .persona-row { grid-template-columns: repeat(3, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .dates-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .outcomes-grid { grid-template-columns: 1fr; }
+  .takeaways-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+  .logistics-grid { grid-template-columns: 1fr; }
+  .persona-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .booking-card { display: none; }
+  .mobile-booking-bar { display: flex; }
+  body { padding-bottom: 76px; }
+  .trust-badges { flex-direction: column; }
+  .persona-row { grid-template-columns: 1fr 1fr; }
+  .takeaways-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .custom-card { flex-direction: column; text-align: center; }
+  .date-card { flex-direction: column; text-align: left; }
+  .date-right { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="inner">
+    <div class="top-bar-left">
+      <span>📞 <a href="tel:+420517546191">+420 517 546 191</a></span>
+      <span>✉️ <a href="mailto:skoleni@ictpro.cz">skoleni@ictpro.cz</a></span>
+    </div>
+    <div class="top-bar-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('cs')" id="btn-cs">CZ</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+      </div>
+      <a href="#" class="customer-link">
+        <span class="inline-cs">Zákaznická sekce</span>
+        <span class="inline-en">Customer portal</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav-header">
+  <nav class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">ict<span>Pro</span></div>
+      <div class="logo-tagline">...Strict Professionals</div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"><span class="inline-cs">Domů</span><span class="inline-en">Home</span></a>
+      <a href="#"><span class="inline-cs">O firmě</span><span class="inline-en">About us</span></a>
+      <a href="index.html#categories" class="active"><span class="inline-cs">ICT Kurzy</span><span class="inline-en">ICT Courses</span></a>
+      <a href="#"><span class="inline-cs">Soft Skills</span><span class="inline-en">Soft Skills</span></a>
+      <a href="#"><span class="inline-cs">Certifikace</span><span class="inline-en">Certification</span></a>
+      <a href="#"><span class="inline-cs">Videokurzy</span><span class="inline-en">Video courses</span></a>
+      <a href="#footer"><span class="inline-cs">Kontakt</span><span class="inline-en">Contact</span></a>
+      <a href="#dates" class="nav-cta"><span class="inline-cs">Objednat kurz</span><span class="inline-en">Book course</span></a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Domů / Home</a>
+    <a href="#">O firmě / About</a>
+    <a href="index.html#categories">ICT Kurzy / Courses</a>
+    <a href="#">Certifikace / Certification</a>
+    <a href="#footer">Kontakt / Contact</a>
+    <a href="#dates" class="nav-cta">Objednat kurz / Book course</a>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner">
+    <a href="index.html"><span class="inline-cs">Domů</span><span class="inline-en">Home</span></a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#"><span class="inline-cs">Kategorie kurzů</span><span class="inline-en">Course categories</span></a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#"><span class="inline-cs">Umělá Inteligence</span><span class="inline-en">Artificial Intelligence</span></a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">Claude</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>CLVC</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero-section">
+  <div class="hero-inner">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
+        <span class="course-code-badge">CLVC</span>
+        <span class="course-category-tag">🤖 <span class="inline-cs">Umělá Inteligence · Claude · AI pro uživatele</span><span class="inline-en">Artificial Intelligence · Claude · AI for users</span></span>
+      </div>
+
+      <div data-lang="cs">
+        <h1>Claude AI – vibe coding a tvorba aplikací bez programování</h1>
+        <p class="hero-intro">Představujeme <strong>Claude od Anthropic</strong> – výkonného AI asistenta pro tvorbu vlastních nástrojů a automatizaci. Naučíte se <strong>vibe coding</strong> – přístup, kdy popíšete, co chcete, a AI to vytvoří za vás. Žádné předchozí programátorské znalosti nejsou potřeba.</p>
+      </div>
+      <div data-lang="en">
+        <h1>Claude AI – vibe coding and building apps without programming</h1>
+        <p class="hero-intro">Discover <strong>Claude by Anthropic</strong> – a powerful AI assistant for building your own tools and automations. You'll learn <strong>vibe coding</strong> – describe what you want, and AI creates it for you. No prior programming knowledge required.</p>
+      </div>
+
+      <div class="trust-badges">
+        <span class="trust-badge"><span class="b-icon">📅</span> 2 <span class="inline-cs">dny</span><span class="inline-en">days</span></span>
+        <span class="trust-badge"><span class="b-icon">💰</span> 9 800 Kč <span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></span>
+        <span class="trust-badge"><span class="b-icon">✅</span> <span class="inline-cs">Žádné programování</span><span class="inline-en">No coding required</span></span>
+        <span class="trust-badge"><span class="b-icon">🎓</span> <span class="inline-cs">Certifikát</span><span class="inline-en">Certificate</span></span>
+        <span class="trust-badge"><span class="b-icon">💻</span> <span class="inline-cs">Praha · Brno · Online</span><span class="inline-en">Prague · Brno · Online</span></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: BOOKING CARD -->
+    <div class="booking-card">
+      <div class="booking-card-top">
+        <div class="label"><span class="inline-cs">Nejbližší termín</span><span class="inline-en">Next available date</span></div>
+        <div class="nearest-date">4. 5. – 5. 5. 2026</div>
+        <div class="nearest-loc">📍 Praha + online</div>
+      </div>
+
+      <div class="booking-price">
+        <div class="price-main">9 800 Kč <span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></span></div>
+        <div class="price-vat">11 858 Kč <span class="inline-cs">včetně 21 % DPH</span><span class="inline-en">incl. 21% VAT</span></div>
+      </div>
+
+      <button class="btn-book" onclick="document.getElementById('dates').scrollIntoView({behavior:'smooth'})">
+        <span class="inline-cs">Objednat kurz →</span>
+        <span class="inline-en">Book course →</span>
+      </button>
+      <button class="btn-book-outline" onclick="alert('Školení na míru – kontaktujte nás')">
+        <span class="inline-cs">Školení na míru</span>
+        <span class="inline-en">Custom training</span>
+      </button>
+
+      <p class="booking-note">
+        <span class="inline-cs">Nebo se připojte online — uveďte do poznámky v objednávce „Připojím se virtuálně"</span>
+        <span class="inline-en">Or join online — add "I'll join virtually" in the order notes</span>
+      </p>
+
+      <hr class="booking-divider">
+
+      <div class="booking-meta">
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Délka</span><span class="inline-en">Duration</span></span>
+          <span class="bm-val">2 <span class="inline-cs">dny · 9:00–17:00</span><span class="inline-en">days · 9:00–17:00</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Forma</span><span class="inline-en">Format</span></span>
+          <span class="bm-val"><span class="inline-cs">Prezenčně / Online</span><span class="inline-en">On-site / Online</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Předpoklady</span><span class="inline-en">Prerequisites</span></span>
+          <span class="bm-val" style="color:#166534"><span class="inline-cs">Žádné</span><span class="inline-en">None</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Certifikát</span><span class="inline-en">Certificate</span></span>
+          <span class="bm-val">✅ <span class="inline-cs">Ano</span><span class="inline-en">Yes</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 3 — LEARNING OUTCOMES
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Toto školení vám pomůže</span><span class="inline-en">What this course gives you</span></span>
+      <h2><span class="inline-cs">Co se naučíte</span><span class="inline-en">What you'll learn</span></h2>
+      <p><span class="inline-cs">8 praktických dovedností, které začnete využívat hned po skončení kurzu.</span><span class="inline-en">8 practical skills you'll start using right after the course ends.</span></p>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon">🧠</div>
+        <div>
+          <h3><span class="inline-cs">Možnosti a limity AI</span><span class="inline-en">AI capabilities & limits</span></h3>
+          <p><span class="inline-cs">Pochopíte, kdy AI pomůže a kdy selže — halucinace, zastaralá data, citlivé informace.</span><span class="inline-en">You'll understand when AI helps and when it fails — hallucinations, stale data, sensitive information.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">⚙️</div>
+        <div>
+          <h3><span class="inline-cs">Personalizace Claude</span><span class="inline-en">Personalising Claude</span></h3>
+          <p><span class="inline-cs">Memory, Skills a Projects nastavené přímo pro váš pracovní styl a potřeby.</span><span class="inline-en">Memory, Skills and Projects configured for your exact workflow and needs.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🌐</div>
+        <div>
+          <h3><span class="inline-cs">Vlastní webová stránka</span><span class="inline-en">Your own website</span></h3>
+          <p><span class="inline-cs">Vytvoříte funkční web bez jediného řádku kódu — publikovaný na internetu zdarma.</span><span class="inline-en">You'll build a working website without a single line of code — published online for free.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🚀</div>
+        <div>
+          <h3><span class="inline-cs">Publikace na GitHub Pages</span><span class="inline-en">Publishing on GitHub Pages</span></h3>
+          <p><span class="inline-cs">Web dostupný na internetu zdarma — naučíte se základy verzování a nasazení.</span><span class="inline-en">Your site live on the internet for free — you'll learn version control basics and deployment.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🤖</div>
+        <div>
+          <h3><span class="inline-cs">Automatizace s GitHub Actions</span><span class="inline-en">Automation with GitHub Actions</span></h3>
+          <p><span class="inline-cs">Napíšete skripty, které samy sbírají data a pracují za vás — bez programátorských znalostí.</span><span class="inline-en">You'll write scripts that gather data and work autonomously — no programming background needed.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">💬</div>
+        <div>
+          <h3><span class="inline-cs">Techniky promptování</span><span class="inline-en">Prompting techniques</span></h3>
+          <p><span class="inline-cs">Chain of thought, few-shot a role prompting — jak formulovat dotazy pro nejlepší výsledky.</span><span class="inline-en">Chain of thought, few-shot and role prompting — how to phrase requests for the best results.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🛡️</div>
+        <div>
+          <h3><span class="inline-cs">Etika a bezpečnost AI</span><span class="inline-en">AI ethics & security</span></h3>
+          <p><span class="inline-cs">Co Claude vidí, co ukládá a jak nést odpovědnost za výstupy generativní AI.</span><span class="inline-en">What Claude sees, what it stores, and how to take responsibility for AI-generated outputs.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">✅</div>
+        <div>
+          <h3><span class="inline-cs">Kdy AI použít a kdy NE</span><span class="inline-en">When to use AI — and when not to</span></h3>
+          <p><span class="inline-cs">Praktická rozhodovací kritéria pro každodenní práci — ušetří čas i reputaci.</span><span class="inline-en">Practical decision criteria for daily work — saves time and protects your reputation.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4 — TARGET AUDIENCE
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Kdo by se měl zúčastnit?</span><span class="inline-en">Who should attend?</span></span>
+      <h2><span class="inline-cs">Pro koho je kurz určen</span><span class="inline-en">Who this course is for</span></h2>
+    </div>
+    <div class="persona-row">
+      <div class="persona-tile">
+        <div class="persona-emoji">📊</div>
+        <h3><span class="inline-cs">Analytici a datoví pracovníci</span><span class="inline-en">Analysts & data workers</span></h3>
+        <p><span class="inline-cs">Validace kódu, vizualizace, přehledy</span><span class="inline-en">Code validation, visualisations, dashboards</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">📣</div>
+        <h3><span class="inline-cs">Marketingoví pracovníci</span><span class="inline-en">Marketing professionals</span></h3>
+        <p><span class="inline-cs">Landing pages, formuláře, kampaňové stránky</span><span class="inline-en">Landing pages, forms, campaign sites</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">📋</div>
+        <h3><span class="inline-cs">Projektoví manažeři</span><span class="inline-en">Project managers</span></h3>
+        <p><span class="inline-cs">Rychlá dokumentace, diagramy, šablony</span><span class="inline-en">Fast documentation, diagrams, templates</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">🗂️</div>
+        <h3><span class="inline-cs">HR a administrativa</span><span class="inline-en">HR & administration</span></h3>
+        <p><span class="inline-cs">Šablony, jednoduché nástroje, formuláře</span><span class="inline-en">Templates, simple tools, online forms</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">💡</div>
+        <h3><span class="inline-cs">Kdokoli, kdo chce tvořit</span><span class="inline-en">Anyone who wants to create</span></h3>
+        <p><span class="inline-cs">A myslel si, že programování není pro něj</span><span class="inline-en">And thought coding wasn't for them</span></p>
+      </div>
+    </div>
+    <div class="no-code-callout">
+      <div class="nc-icon">🚫💻</div>
+      <div>
+        <h3><span class="inline-cs">Žádné programátorské znalosti nejsou potřeba.</span><span class="inline-en">No programming knowledge required.</span></h3>
+        <p><span class="inline-cs">Stačí základní práce s počítačem a internetem. Claude a vibe coding jsou navrženy přesně pro lidi, kteří se kódu doteď vyhýbali.</span><span class="inline-en">Basic computer and internet skills are all you need. Claude and vibe coding are designed precisely for people who have avoided code until now.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5 — CURRICULUM
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Program školení</span><span class="inline-en">Course programme</span></span>
+      <h2><span class="inline-cs">Obsah kurzu</span><span class="inline-en">Curriculum</span></h2>
+    </div>
+
+    <div class="curriculum-meta">
+      <div class="curriculum-stat"><span class="cs-num">9</span> <span class="inline-cs">modulů</span><span class="inline-en">modules</span></div>
+      <div class="curriculum-stat"><span class="cs-num">2</span> <span class="inline-cs">dny výuky</span><span class="inline-en">days</span></div>
+      <div class="curriculum-stat"><span class="cs-num">16</span> <span class="inline-cs">hodin praxe</span><span class="inline-en">hours</span></div>
+    </div>
+
+    <div class="accordion" id="accordion">
+
+      <div class="acc-item open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">1</div>
+          <div class="acc-title"><span class="inline-cs">Úvod do AI a Claude</span><span class="inline-en">Introduction to AI & Claude</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Jak funguje generativní AI – klíčové pojmy a principy</span><span class="inline-en">How generative AI works – key concepts and principles</span></li>
+            <li><span class="inline-cs">Limity AI: halucinace, zastaralé informace, citlivá data</span><span class="inline-en">AI limits: hallucinations, outdated information, sensitive data</span></li>
+            <li><span class="inline-cs">Kdy Claude použít a kdy NE – praktická rozhodovací matice</span><span class="inline-en">When to use Claude and when NOT to – practical decision matrix</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">2</div>
+          <div class="acc-title"><span class="inline-cs">Efektivní promptování</span><span class="inline-en">Effective prompting</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Anatomie dobrého promptu – co musí obsahovat každý dotaz</span><span class="inline-en">Anatomy of a good prompt – what every request must include</span></li>
+            <li><span class="inline-cs">Techniky: chain of thought, few-shot, role prompting</span><span class="inline-en">Techniques: chain of thought, few-shot, role prompting</span></li>
+            <li><span class="inline-cs">Iterativní zpřesňování výstupů – jak komunikovat s AI jako profesionál</span><span class="inline-en">Iterative refinement – how to communicate with AI like a professional</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">3</div>
+          <div class="acc-title"><span class="inline-cs">Personalizace Claude</span><span class="inline-en">Personalising Claude</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Memory – trvalé preference a kontext pro Claude</span><span class="inline-en">Memory – persistent preferences and context for Claude</span></li>
+            <li><span class="inline-cs">Projects – vlastní knowledge base a znalostní základna</span><span class="inline-en">Projects – your own knowledge base</span></li>
+            <li><span class="inline-cs">Skills – opakované workflow a šablony příkazů</span><span class="inline-en">Skills – repeatable workflows and command templates</span></li>
+            <li><span class="inline-cs">Styles – jak ovlivnit formát a tón odpovědí</span><span class="inline-en">Styles – controlling the format and tone of responses</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">4</div>
+          <div class="acc-title">Claude Chat vs Claude Code</div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Kdy použít co – rozdíly, výhody, typické úlohy</span><span class="inline-en">When to use which – differences, advantages, typical tasks</span></li>
+            <li><span class="inline-cs">Artefakty – živé náhledy HTML, diagramy, interaktivní výstupy</span><span class="inline-en">Artifacts – live HTML previews, diagrams, interactive outputs</span></li>
+            <li><span class="inline-cs">Workflow: prototyp → commit → publikace</span><span class="inline-en">Workflow: prototype → commit → publish</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">5</div>
+          <div class="acc-title"><span class="inline-cs">GitHub a verzování</span><span class="inline-en">GitHub & version control</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Základní pojmy: repo, commit, branch – bez strachu</span><span class="inline-en">Core concepts: repo, commit, branch – without fear</span></li>
+            <li><span class="inline-cs">Proč verzovat a jak se vrátit zpět – záchrana před chybami</span><span class="inline-en">Why version and how to roll back – your safety net</span></li>
+            <li>GitHub Pages – <span class="inline-cs">publikace webu zdarma za minuty</span><span class="inline-en">free website publication in minutes</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">6</div>
+          <div class="acc-title"><span class="inline-cs">Praktický projekt: Vlastní web</span><span class="inline-en">Hands-on project: Your own website</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Tvorba portfolio stránky nebo online vizitky s Claude</span><span class="inline-en">Building a portfolio or business card site with Claude</span></li>
+            <li><span class="inline-cs">Iterace – jak vylepšovat výsledek pomocí zpětné vazby AI</span><span class="inline-en">Iteration – how to improve results through AI feedback loops</span></li>
+            <li><span class="inline-cs">Publikace hotového webu na GitHub Pages</span><span class="inline-en">Publishing the finished site on GitHub Pages</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">7</div>
+          <div class="acc-title"><span class="inline-cs">Interaktivní aplikace</span><span class="inline-en">Interactive applications</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Kalkulačka, formulář nebo kvíz – výběr dle vaší potřeby</span><span class="inline-en">Calculator, form, or quiz – you choose based on your needs</span></li>
+            <li><span class="inline-cs">Propojení s Google Sheets pro ukládání dat</span><span class="inline-en">Integration with Google Sheets for data storage</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">8</div>
+          <div class="acc-title"><span class="inline-cs">Automatizace s GitHub Actions</span><span class="inline-en">Automation with GitHub Actions</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Co jsou GitHub Actions – automatické spouštění kódu na pozadí</span><span class="inline-en">What GitHub Actions are – automatic code execution in the background</span></li>
+            <li><span class="inline-cs">Python skript pro scraping dat z webu – prakticky a srozumitelně</span><span class="inline-en">Python script for web scraping – practical and easy to follow</span></li>
+            <li><span class="inline-cs">Praktický příklad: monitoring konkurence, ukládání dat do CSV</span><span class="inline-en">Real example: competitor monitoring, saving data to CSV</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">9</div>
+          <div class="acc-title"><span class="inline-cs">Etika a bezpečnost AI</span><span class="inline-en">AI ethics & security</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Plagiát, copyright, transparentnost – kde jsou hranice</span><span class="inline-en">Plagiarism, copyright, transparency – where the lines are drawn</span></li>
+            <li><span class="inline-cs">Ochrana dat – co Claude vidí, co ukládá a co ne</span><span class="inline-en">Data protection – what Claude sees, stores, and doesn't</span></li>
+            <li><span class="inline-cs">Odpovědnost za AI výstupy – jak na to v praxi</span><span class="inline-en">Responsibility for AI outputs – how to handle it in practice</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /accordion -->
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 6 — TAKEAWAYS
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Vaše výstupy</span><span class="inline-en">Your takeaways</span></span>
+      <h2><span class="inline-cs">Co si z kurzu odnesete</span><span class="inline-en">What you'll take away</span></h2>
+      <p><span class="inline-cs">Konkrétní výstupy, hotové výtvory a dovednosti — ne jen poznámky.</span><span class="inline-en">Concrete outputs, finished work and skills — not just notes.</span></p>
+    </div>
+    <div class="takeaways-grid">
+      <div class="takeaway-card">
+        <div class="takeaway-icon">⚙️</div>
+        <div>
+          <h3><span class="inline-cs">Nastavený Claude účet</span><span class="inline-en">Configured Claude account</span></h3>
+          <p><span class="inline-cs">Memory, Skills a Projects připravené pro váš pracovní kontext.</span><span class="inline-en">Memory, Skills and Projects ready for your work context.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">🌐</div>
+        <div>
+          <h3><span class="inline-cs">Vlastní web na GitHub Pages</span><span class="inline-en">Your website on GitHub Pages</span></h3>
+          <p><span class="inline-cs">Živý web na internetu — dostupný ihned po kurzu.</span><span class="inline-en">A live site on the internet — accessible right after the course.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">🖥️</div>
+        <div>
+          <h3><span class="inline-cs">Interaktivní nástroj</span><span class="inline-en">Interactive tool</span></h3>
+          <p><span class="inline-cs">Kalkulačka, formulář nebo kvíz propojený s Google Sheets.</span><span class="inline-en">A calculator, form, or quiz linked to Google Sheets.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">🤖</div>
+        <div>
+          <h3><span class="inline-cs">Automatizační skript</span><span class="inline-en">Automation script</span></h3>
+          <p><span class="inline-cs">GitHub Actions + Python skript pro sběr dat z webu.</span><span class="inline-en">GitHub Actions + Python script for collecting web data.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">💬</div>
+        <div>
+          <h3><span class="inline-cs">Prompt šablony</span><span class="inline-en">Prompt templates</span></h3>
+          <p><span class="inline-cs">Sada šablon pro nejčastější pracovní situace — rovnou k použití.</span><span class="inline-en">A set of templates for the most common work situations — ready to use.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">🎓</div>
+        <div>
+          <h3><span class="inline-cs">Certifikát o absolvování</span><span class="inline-en">Certificate of completion</span></h3>
+          <p><span class="inline-cs">Vydán ICT Pro po úspěšném absolvování kurzu.</span><span class="inline-en">Issued by ICT Pro upon successful course completion.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 7 — DATES
+     ============================================================ -->
+<section class="section section-gray" id="dates">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Kdy a kde</span><span class="inline-en">When & where</span></span>
+      <h2><span class="inline-cs">Termíny a místa konání</span><span class="inline-en">Dates & locations</span></h2>
+      <p><span class="inline-cs">Vyberte termín, který vám vyhovuje — prezenčně nebo online.</span><span class="inline-en">Choose the date that suits you — on-site or online.</span></p>
+    </div>
+
+    <div class="dates-grid">
+      <div class="date-card featured">
+        <div class="date-info">
+          <div class="featured-label"><span class="inline-cs">Nejbližší termín</span><span class="inline-en">Nearest date</span></div>
+          <div class="date-str">4. 5. – 5. 5. 2026</div>
+          <div class="loc-badges">
+            <span class="loc-badge badge-praha">Praha</span>
+            <span class="loc-badge badge-online">Online</span>
+          </div>
+        </div>
+        <div class="date-right">
+          <div class="date-price">9 800 Kč<span><span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></span></div>
+          <button class="btn-order" onclick="alert('Objednávka: Praha 4.5.–5.5.2026')">
+            <span class="inline-cs">Objednat →</span><span class="inline-en">Book →</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="date-card">
+        <div class="date-info">
+          <div class="date-str">2. 6. – 3. 6. 2026</div>
+          <div class="loc-badges">
+            <span class="loc-badge badge-brno">Brno</span>
+            <span class="loc-badge badge-online">Online</span>
+          </div>
+        </div>
+        <div class="date-right">
+          <div class="date-price">9 800 Kč<span><span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></span></div>
+          <button class="btn-order" onclick="alert('Objednávka: Brno 2.6.–3.6.2026')">
+            <span class="inline-cs">Objednat →</span><span class="inline-en">Book →</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="date-card">
+        <div class="date-info">
+          <div class="date-str">15. 6. – 16. 6. 2026</div>
+          <div class="loc-badges">
+            <span class="loc-badge badge-praha">Praha</span>
+            <span class="loc-badge badge-online">Online</span>
+          </div>
+        </div>
+        <div class="date-right">
+          <div class="date-price">9 800 Kč<span><span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></span></div>
+          <button class="btn-order" onclick="alert('Objednávka: Praha 15.6.–16.6.2026')">
+            <span class="inline-cs">Objednat →</span><span class="inline-en">Book →</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="date-card">
+        <div class="date-info">
+          <div class="date-str">21. 9. – 22. 9. 2026</div>
+          <div class="loc-badges">
+            <span class="loc-badge badge-praha">Praha</span>
+            <span class="loc-badge badge-online">Online</span>
+          </div>
+        </div>
+        <div class="date-right">
+          <div class="date-price">9 800 Kč<span><span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></span></div>
+          <button class="btn-order" onclick="alert('Objednávka: Praha 21.9.–22.9.2026')">
+            <span class="inline-cs">Objednat →</span><span class="inline-en">Book →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-card">
+      <div>
+        <h3><span class="inline-cs">Školení na míru — termín, lokalita, obsah, délka</span><span class="inline-en">Custom training — date, location, content, duration</span></h3>
+        <p><span class="inline-cs">Připravíme kurz přesně pro váš tým a vaše potřeby. Nezávazná konzultace zdarma.</span><span class="inline-en">We'll tailor the course exactly to your team and needs. Free initial consultation.</span></p>
+      </div>
+      <button class="btn-custom" onclick="alert('Školení na míru')">
+        <span class="inline-cs">Nezávazná poptávka →</span><span class="inline-en">Free enquiry →</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 8 — TOOL ACCESS CALLOUT
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="tool-callout">
+      <div class="tc-icon">🔑</div>
+      <div>
+        <h3><span class="inline-cs">Přístup k nástrojům během školení</span><span class="inline-en">Tool access during the course</span></h3>
+        <p><span class="inline-cs">V průběhu školení budeme využívat <strong>naše placené licence</strong> — každý účastník získá přístup ke službě Claude Code na dobu výuky + <strong>1 týden po skončení kurzu</strong> pro samostatné testování.</span><span class="inline-en">During the course we use <strong>our paid licences</strong> — every participant gets access to Claude Code for the duration of training + <strong>1 week after the course ends</strong> for independent testing.</span></p>
+        <p class="tc-note"><span class="inline-cs">Pokud již účet máte, předem si jej aktivujte a ušetříme čas při zahájení. Pokud ne, společně si jej vytvoříme na začátku školení.</span><span class="inline-en">If you already have an account, activate it in advance to save time at the start. If not, we'll create one together at the beginning.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 9 — LOGISTICS
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Praktické informace</span><span class="inline-en">Practical information</span></span>
+      <h2><span class="inline-cs">Předpoklady a organizace</span><span class="inline-en">Prerequisites & logistics</span></h2>
+    </div>
+    <div class="logistics-grid">
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Předpokládané znalosti</span><span class="inline-en">Prerequisites</span></h3>
+        <p><span class="inline-cs">Základní práce s počítačem a internetem. <strong>Žádné programátorské znalosti nejsou potřeba.</strong></span><span class="inline-en">Basic computer and internet skills. <strong>No programming knowledge required.</strong></span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Časový rozvrh</span><span class="inline-en">Schedule</span></h3>
+        <p><span class="inline-cs">2 dny, 9:00–17:00 hod. (16 hodin výuky celkem)</span><span class="inline-en">2 days, 9:00–17:00 (16 hours of teaching in total)</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Forma výuky</span><span class="inline-en">Learning format</span></h3>
+        <p><span class="inline-cs">Prezenčně v učebně nebo online (hybridní forma). Pokud preferujete online, uveďte do poznámky v objednávce „Připojím se virtuálně".</span><span class="inline-en">On-site in a classroom or online (hybrid format). If you prefer online, add "I'll join virtually" in the order notes.</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Cena kurzu</span><span class="inline-en">Course price</span></h3>
+        <p><strong>9 800 Kč</strong> <span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span> <br><span style="color:var(--muted);font-size:13px">11 858 Kč <span class="inline-cs">vč. 21 % DPH</span><span class="inline-en">incl. 21% VAT</span></span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Kód kurzu</span><span class="inline-en">Course code</span></h3>
+        <p><span style="font-family:monospace;font-size:16px;font-weight:700;background:var(--charcoal);color:var(--yellow);padding:3px 10px;border-radius:4px">CLVC</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Certifikát</span><span class="inline-en">Certificate</span></h3>
+        <p>✅ <span class="inline-cs">Ano — vydán ICT Pro po absolvování kurzu.</span><span class="inline-en">Yes — issued by ICT Pro upon course completion.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 10 — TESTIMONIALS
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header centered">
+      <span class="eyebrow"><span class="inline-cs">Reference</span><span class="inline-en">Testimonials</span></span>
+      <h2><span class="inline-cs">Co říkají účastníci</span><span class="inline-en">What attendees say</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <blockquote><span class="inline-cs">Kurz mě naprosto překvapil. Myslel jsem, že programování je pro mě uzavřená kapitola — za dva dny jsem měl vlastní web a skript, který mi každý den sbírá data. Claude je fantastický nástroj.</span><span class="inline-en">The course completely surprised me. I thought programming was a closed chapter for me — in two days I had my own website and a script collecting data for me every day. Claude is a fantastic tool.</span></blockquote>
+        <div class="testimonial-author">Karel H.</div>
+        <div class="testimonial-role"><span class="inline-cs">Ministerstvo pro místní rozvoj</span><span class="inline-en">Ministry of Regional Development</span></div>
+      </div>
+      <div class="testimonial-card placeholder-card" style="min-height:160px">
+        <p><span class="inline-cs">Další reference bude doplněna.<br>Kontaktujte nás pro sdílení zkušeností.</span><span class="inline-en">Further testimonial to be added.<br>Contact us to share your experience.</span></p>
+      </div>
+      <div class="testimonial-card placeholder-card" style="min-height:160px">
+        <p><span class="inline-cs">Další reference bude doplněna.<br>Kontaktujte nás pro sdílení zkušeností.</span><span class="inline-en">Further testimonial to be added.<br>Contact us to share your experience.</span></p>
+      </div>
+    </div>
+    <div class="partner-logos">
+      <div class="partner-logo">Microsoft</div>
+      <div class="partner-logo">Cisco</div>
+      <div class="partner-logo">VMware</div>
+      <div class="partner-logo">IBM</div>
+      <div class="partner-logo">Adobe</div>
+      <div class="partner-logo">Check Point</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 11 — RELATED COURSES
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Mohlo by vás zajímat</span><span class="inline-en">You might also like</span></span>
+      <h2><span class="inline-cs">Související kurzy</span><span class="inline-en">Related courses</span></h2>
+    </div>
+    <div class="related-grid">
+      <div class="related-card">
+        <span class="related-badge">AI-105</span>
+        <h3><span class="inline-cs">AI v Excelu a Microsoft 365 Copilot</span><span class="inline-en">AI in Excel & Microsoft 365 Copilot</span></h3>
+        <p><span class="inline-cs">Využijte sílu Copilota a AI přímo v nástrojích, které denně používáte — bez přechodu na novou platformu.</span><span class="inline-en">Harness the power of Copilot and AI directly in the tools you use every day — no platform switch needed.</span></p>
+        <a href="#" class="related-link"><span class="inline-cs">Více informací →</span><span class="inline-en">Learn more →</span></a>
+      </div>
+      <div class="related-card">
+        <span class="related-badge">GPT-201</span>
+        <h3><span class="inline-cs">ChatGPT – efektivní využití pro praxi</span><span class="inline-en">ChatGPT – effective use in practice</span></h3>
+        <p><span class="inline-cs">Naučte se pracovat s ChatGPT na profesionální úrovni — od promptování po integraci do pracovních procesů.</span><span class="inline-en">Learn to use ChatGPT at a professional level — from prompting to workflow integration.</span></p>
+        <a href="#" class="related-link"><span class="inline-cs">Více informací →</span><span class="inline-en">Learn more →</span></a>
+      </div>
+      <div class="related-card">
+        <span class="related-badge">AI-201</span>
+        <h3><span class="inline-cs">VIBE Coding s pomocí AI nástrojů</span><span class="inline-en">VIBE Coding with AI tools</span></h3>
+        <p><span class="inline-cs">Pokročilejší vibe coding napříč nástroji — Claude, Cursor, GitHub Copilot. Pro ty, kdo chtějí jít dál.</span><span class="inline-en">Advanced vibe coding across tools — Claude, Cursor, GitHub Copilot. For those who want to go further.</span></p>
+        <a href="#" class="related-link"><span class="inline-cs">Více informací →</span><span class="inline-en">Learn more →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="logo-mark">ict<span>Pro</span></div>
+          <div class="logo-tagline">...Strict Professionals</div>
+        </div>
+        <p>📍 Příkop 843/4, 602 00 Brno</p>
+        <p>📍 Budějovická 15a, 140 00 Praha 4</p>
+        <p style="margin-top:8px"><a href="tel:+420517546191">📞 +420 517 546 191</a></p>
+        <p><a href="mailto:skoleni@ictpro.cz">✉️ skoleni@ictpro.cz</a></p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="Facebook">f</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4><span class="inline-cs">Rychlé odkazy</span><span class="inline-en">Quick links</span></h4>
+        <a href="#"><span class="inline-cs">O firmě</span><span class="inline-en">About us</span></a>
+        <a href="index.html#categories" class="footer-active"><span class="inline-cs">ICT Kurzy</span><span class="inline-en">ICT Courses</span></a>
+        <a href="#"><span class="inline-cs">Certifikace</span><span class="inline-en">Certification</span></a>
+        <a href="#">Videokurzy</a>
+        <a href="#footer"><span class="inline-cs">Kontakt</span><span class="inline-en">Contact</span></a>
+        <a href="#">GDPR</a>
+      </div>
+      <div class="footer-col">
+        <h4><span class="inline-cs">Kategorie kurzů</span><span class="inline-en">Course categories</span></h4>
+        <a href="#">Microsoft 365 &amp; Office</a>
+        <a href="#">Azure &amp; Cloud</a>
+        <a href="#"><span class="inline-cs">Programování</span><span class="inline-en">Programming</span></a>
+        <a href="#"><span class="inline-cs">Bezpečnost</span><span class="inline-en">Security</span></a>
+        <a href="#">Networking</a>
+        <a href="#" style="color:var(--yellow);font-weight:700">AI &amp; Claude ←</a>
+      </div>
+      <div class="footer-col">
+        <h4><span class="inline-cs">Zavoláme vám</span><span class="inline-en">We'll call you back</span></h4>
+        <p style="margin-bottom:14px"><span class="inline-cs">Zanechte nám kontakt a ozveme se vám do 24 hodin.</span><span class="inline-en">Leave your details and we'll get back to you within 24 hours.</span></p>
+        <form class="mini-form" onsubmit="handleForm(event)">
+          <input type="text" placeholder="Jméno / Name" required>
+          <input type="text" placeholder="Telefon / Phone" required>
+          <button type="submit"><span class="inline-cs">Odeslat →</span><span class="inline-en">Send →</span></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ICT Pro s.r.o. <span class="inline-cs">Všechna práva vyhrazena.</span><span class="inline-en">All rights reserved.</span></span>
+      <div class="footer-legal">
+        <a href="#"><span class="inline-cs">Obchodní podmínky</span><span class="inline-en">Terms</span></a>
+        <a href="#">GDPR</a>
+        <a href="#"><span class="inline-cs">Ochrana soukromí</span><span class="inline-en">Privacy</span></a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE BOOKING BAR -->
+<div class="mobile-booking-bar">
+  <div class="mbb-info">
+    <div class="mbb-date">Praha · 4. 5. – 5. 5. 2026</div>
+    <div class="mbb-price">9 800 Kč <span class="inline-cs">bez DPH</span><span class="inline-en">excl. VAT</span></div>
+  </div>
+  <button class="mbb-btn" onclick="document.getElementById('dates').scrollIntoView({behavior:'smooth'})">
+    <span class="inline-cs">Objednat →</span><span class="inline-en">Book →</span>
+  </button>
+</div>
+
+<!-- ============================================================
+     JS
+     ============================================================ -->
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btn-cs').classList.toggle('active', lang === 'cs');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+function toggleAcc(header) {
+  const item = header.parentElement;
+  item.classList.toggle('open');
+}
+
+function handleForm(e) {
+  e.preventDefault();
+  alert('Děkujeme! Zavoláme vám co nejdříve.\nThank you! We will call you as soon as possible.');
+  e.target.reset();
+}
+</script>
+
+</body>
+</html>

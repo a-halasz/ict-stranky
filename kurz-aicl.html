@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Claude – jak používat AI jako užitečný pracovní nástroj (AICL). 2denní kurz, žádné technické znalosti nejsou potřeba. Školení na míru pro firmy i jednotlivce.">
+<title>Claude – jak používat AI jako užitečný pracovní nástroj (AICL) | ICT Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --charcoal:   #1A1A1A;
+  --yellow:     #F5C400;
+  --yellow-hi:  #FFD700;
+  --yellow-bg:  #FFFBEB;
+  --white:      #FFFFFF;
+  --light:      #F4F6F9;
+  --mid:        #E8EBF0;
+  --border:     #D1D5DB;
+  --text:       #1A1A1A;
+  --muted:      #6B7280;
+  --radius:     10px;
+  --shadow:     0 4px 20px rgba(0,0,0,0.08);
+  --transition: 0.2s ease;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', system-ui, sans-serif; color: var(--text); background: var(--white); line-height: 1.6; font-size: 16px; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 800; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+[data-lang] { display: none; }
+[data-lang="cs"] { display: block; }
+.inline-cs, .inline-en { display: none; }
+.inline-cs { display: inline; }
+body.lang-en [data-lang="cs"] { display: none; }
+body.lang-en [data-lang="en"] { display: block; }
+body.lang-en .inline-cs { display: none; }
+body.lang-en .inline-en { display: inline; }
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.top-bar { background: var(--charcoal); color: #9CA3AF; font-size: 13px; padding: 8px 0; border-bottom: 2px solid var(--yellow); }
+.top-bar .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.top-bar a { color: #9CA3AF; transition: color var(--transition); }
+.top-bar a:hover { color: var(--yellow); }
+.top-bar-left { display: flex; gap: 20px; align-items: center; }
+.top-bar-right { display: flex; gap: 16px; align-items: center; }
+.lang-switcher { display: flex; gap: 4px; }
+.lang-btn { padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #444; color: #9CA3AF; background: transparent; transition: all var(--transition); font-family: inherit; }
+.lang-btn.active, .lang-btn:hover { background: var(--yellow); color: var(--charcoal); border-color: var(--yellow); }
+.customer-link { padding: 3px 12px; border: 1px solid #555; border-radius: 4px; font-size: 12px; transition: all var(--transition); }
+.customer-link:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav-header { background: var(--white); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
+.logo { display: flex; flex-direction: column; line-height: 1; }
+.logo-mark { font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 800; color: var(--charcoal); letter-spacing: -1px; }
+.logo-mark span { color: var(--yellow); }
+.logo-tagline { font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a { padding: 8px 12px; font-size: 14px; font-weight: 500; color: var(--charcoal); border-radius: 6px; transition: all var(--transition); white-space: nowrap; }
+.nav-links a:hover { background: var(--light); }
+.nav-links a.active { background: var(--light); color: var(--charcoal); font-weight: 700; }
+.nav-cta { background: var(--yellow) !important; color: var(--charcoal) !important; font-weight: 700 !important; padding: 10px 20px !important; border-radius: 8px !important; }
+.nav-cta:hover { background: var(--yellow-hi) !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245,196,0,0.4) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; border: none; background: transparent; }
+.hamburger span { width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all var(--transition); }
+.mobile-menu { display: none; flex-direction: column; background: var(--white); border-top: 1px solid var(--border); padding: 12px 24px 20px; }
+.mobile-menu a { padding: 12px 0; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--light); display: block; }
+.mobile-menu .nav-cta { margin-top: 12px; background: var(--yellow) !important; text-align: center; border-radius: 8px; padding: 12px !important; }
+.mobile-menu.open { display: flex; }
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+.breadcrumb-bar { background: var(--light); border-bottom: 1px solid var(--border); padding: 10px 0; }
+.breadcrumb-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.breadcrumb-inner a { color: var(--muted); transition: color var(--transition); }
+.breadcrumb-inner a:hover { color: var(--charcoal); }
+.breadcrumb-sep { color: var(--yellow); font-weight: 700; }
+.breadcrumb-inner span:last-child { color: var(--charcoal); font-weight: 600; }
+
+/* ============================================================
+   HERO (2-col: content left, booking card right)
+   ============================================================ */
+.hero-section { background: var(--white); padding: 48px 24px 56px; }
+.hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start; }
+
+.course-code-badge { display: inline-block; background: var(--charcoal); color: var(--yellow); font-family: monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px; padding: 4px 12px; border-radius: 5px; margin-bottom: 16px; }
+.course-category-tag { display: inline-flex; align-items: center; gap: 6px; background: #F5F3FF; color: #5B21B6; border: 1px solid #DDD6FE; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; margin-left: 8px; }
+.hero-left h1 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--charcoal); margin-bottom: 18px; line-height: 1.15; }
+.hero-intro { font-size: 16px; color: #374151; line-height: 1.75; margin-bottom: 28px; max-width: 580px; }
+.trust-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+.trust-badge { display: flex; align-items: center; gap: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--charcoal); }
+.trust-badge .b-icon { font-size: 15px; }
+
+/* right — sticky booking card */
+.booking-card { background: var(--white); border: 2px solid var(--border); border-radius: 14px; padding: 28px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); position: sticky; top: 88px; }
+.booking-card-top { background: var(--charcoal); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; border-left: 5px solid var(--yellow); }
+.booking-card-top .label { font-size: 11px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.booking-card-top .card-title { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 800; color: var(--white); line-height: 1.3; }
+.booking-card-top .card-sub { font-size: 13px; color: #9CA3AF; margin-top: 6px; line-height: 1.5; }
+.btn-book { display: block; width: 100%; padding: 14px; background: var(--yellow); color: var(--charcoal); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 16px; border-radius: 8px; text-align: center; border: none; cursor: pointer; transition: all var(--transition); margin-bottom: 10px; }
+.btn-book:hover { background: var(--yellow-hi); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,196,0,0.4); }
+.btn-book-outline { display: block; width: 100%; padding: 12px; background: transparent; color: var(--charcoal); font-weight: 700; font-size: 14px; border-radius: 8px; text-align: center; border: 2px solid var(--border); cursor: pointer; transition: all var(--transition); margin-bottom: 14px; font-family: inherit; text-decoration: none; }
+.btn-book-outline:hover { border-color: var(--charcoal); }
+.booking-note { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.5; }
+.booking-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.booking-meta { display: flex; flex-direction: column; gap: 7px; }
+.booking-meta-row { display: flex; justify-content: space-between; font-size: 13px; }
+.booking-meta-row .bm-label { color: var(--muted); }
+.booking-meta-row .bm-val { font-weight: 600; color: var(--charcoal); }
+
+/* ============================================================
+   SECTION SHARED
+   ============================================================ */
+.section { padding: 72px 24px; }
+.section-light { background: var(--white); }
+.section-gray  { background: var(--light); }
+.section-dark  { background: var(--charcoal); }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-header { margin-bottom: 40px; }
+.section-header h2 { margin-bottom: 8px; }
+.section-header p { color: var(--muted); font-size: 16px; }
+.section-header.centered { text-align: center; }
+.eyebrow { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--yellow); margin-bottom: 8px; }
+
+/* ============================================================
+   SECTION 3 — LEARNING OUTCOMES
+   ============================================================ */
+.outcomes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.outcome-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; gap: 16px; align-items: flex-start; transition: all var(--transition); }
+.outcome-card:hover { border-color: var(--yellow); box-shadow: var(--shadow); }
+.outcome-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--charcoal); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.outcome-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.outcome-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ============================================================
+   SECTION 4 — TARGET AUDIENCE
+   ============================================================ */
+.persona-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 28px; }
+.persona-tile { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 14px; text-align: center; transition: all var(--transition); }
+.persona-tile:hover { border-color: var(--yellow); box-shadow: var(--shadow); transform: translateY(-2px); }
+.persona-emoji { font-size: 28px; margin-bottom: 10px; }
+.persona-tile h3 { font-size: 12px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+.persona-tile p { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.no-code-callout { background: var(--charcoal); border-left: 5px solid var(--yellow); border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: center; gap: 14px; }
+.no-code-callout .nc-icon { font-size: 28px; flex-shrink: 0; }
+.no-code-callout h3 { color: var(--white); font-size: 16px; margin-bottom: 2px; }
+.no-code-callout p { color: #9CA3AF; font-size: 13px; }
+
+/* ============================================================
+   SECTION 5 — CURRICULUM ACCORDION
+   ============================================================ */
+.curriculum-meta { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+.curriculum-stat { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--charcoal); }
+.curriculum-stat .cs-num { background: var(--yellow); color: var(--charcoal); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 18px; padding: 2px 10px; border-radius: 6px; }
+.accordion { display: flex; flex-direction: column; gap: 8px; }
+.acc-item { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.acc-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; background: var(--white); transition: background var(--transition); user-select: none; }
+.acc-header:hover { background: var(--light); }
+.acc-num { width: 30px; height: 30px; border-radius: 7px; background: var(--charcoal); color: var(--yellow); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.acc-title { font-weight: 700; font-size: 15px; flex: 1; }
+.acc-arrow { font-size: 18px; color: var(--muted); transition: transform var(--transition); flex-shrink: 0; }
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+.acc-item.open .acc-header { background: var(--light); }
+.acc-body { display: none; padding: 0 20px 20px 64px; background: var(--white); }
+.acc-item.open .acc-body { display: block; }
+.acc-body ul { list-style: none; }
+.acc-body ul li { font-size: 14px; color: #374151; padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+.acc-body ul li::before { content: '→'; color: var(--yellow); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* ============================================================
+   SECTION 6 — TAKEAWAYS
+   ============================================================ */
+.takeaways-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.takeaway-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; display: flex; align-items: flex-start; gap: 14px; }
+.takeaway-icon { font-size: 26px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.takeaway-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.takeaway-card p { font-size: 12px; color: var(--muted); }
+
+/* ============================================================
+   SECTION 7 — FORMAT & BOOKING (replaces dates table)
+   ============================================================ */
+.format-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+.format-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; display: flex; gap: 16px; align-items: flex-start; }
+.format-card .fc-icon { font-size: 32px; flex-shrink: 0; }
+.format-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.format-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.format-card a { color: var(--charcoal); border-bottom: 1px solid var(--yellow); font-size: 13px; font-weight: 600; }
+.enquiry-card { background: var(--charcoal); border-radius: var(--radius); padding: 32px 36px; display: flex; justify-content: space-between; align-items: center; gap: 32px; }
+.enquiry-card-left h3 { color: var(--white); font-size: 20px; margin-bottom: 8px; }
+.enquiry-card-left p { color: #9CA3AF; font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+.contact-strip { display: flex; gap: 20px; flex-wrap: wrap; }
+.contact-strip a { color: #9CA3AF; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: color var(--transition); }
+.contact-strip a:hover { color: var(--yellow); }
+.btn-enquire { display: inline-block; padding: 14px 28px; background: var(--yellow); color: var(--charcoal); font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 16px; border-radius: 8px; border: none; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+.btn-enquire:hover { background: var(--yellow-hi); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,196,0,0.4); }
+
+/* ============================================================
+   SECTION 8 — LOGISTICS
+   ============================================================ */
+.logistics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.logistics-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+.logistics-card h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+.logistics-card p, .logistics-card a { font-size: 14px; color: var(--charcoal); line-height: 1.6; }
+
+/* ============================================================
+   SECTION 9 — TESTIMONIALS
+   ============================================================ */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
+.testimonial-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 22px; box-shadow: var(--shadow); }
+.testimonial-card blockquote { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 18px; font-style: italic; position: relative; padding-left: 20px; }
+.testimonial-card blockquote::before { content: '"'; position: absolute; left: 0; top: -6px; font-size: 36px; color: var(--yellow); font-family: 'Poppins', sans-serif; font-weight: 800; line-height: 1; }
+.testimonial-author { font-size: 13px; font-weight: 700; }
+.testimonial-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.placeholder-card { background: var(--light); border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; }
+.placeholder-card p { font-size: 13px; color: var(--muted); text-align: center; line-height: 1.6; }
+.partner-logos { display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; padding: 24px 0; border-top: 1px solid var(--border); }
+.partner-logo { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 15px; color: #9CA3AF; transition: color var(--transition); }
+.partner-logo:hover { color: var(--charcoal); }
+
+/* ============================================================
+   SECTION 10 — RELATED COURSES
+   ============================================================ */
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.related-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; transition: all var(--transition); }
+.related-card:hover { border-color: var(--yellow); box-shadow: var(--shadow); transform: translateY(-2px); }
+.related-badge { display: inline-block; background: var(--charcoal); color: var(--yellow); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; font-family: monospace; letter-spacing: 0.5px; }
+.related-card h3 { font-size: 15px; margin-bottom: 8px; }
+.related-card p { font-size: 13px; color: var(--muted); flex: 1; margin-bottom: 16px; line-height: 1.6; }
+.related-link { font-size: 13px; font-weight: 700; color: var(--charcoal); display: inline-flex; align-items: center; gap: 4px; border-bottom: 1px solid var(--yellow); padding-bottom: 1px; width: fit-content; transition: gap var(--transition); }
+.related-link:hover { gap: 8px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer { background: #111111; color: #9CA3AF; padding: 64px 24px 0; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.4fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.footer-col h4 { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; }
+.footer-col p, .footer-col a { font-size: 14px; line-height: 1.8; display: block; margin-bottom: 4px; }
+.footer-col a:hover { color: var(--yellow); }
+.footer-col a.footer-active { color: var(--yellow); border-bottom: 2px solid var(--yellow); padding-bottom: 1px; display: inline-block; }
+.footer-logo .logo-mark { font-size: 24px; color: var(--white); }
+.footer-logo .logo-mark span { color: var(--yellow); }
+.footer-logo .logo-tagline { color: #555; }
+.footer-logo { margin-bottom: 16px; }
+.social-links { display: flex; gap: 10px; margin-top: 16px; }
+.social-link { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #9CA3AF; transition: all var(--transition); }
+.social-link:hover { background: var(--yellow); color: var(--charcoal); border-color: var(--yellow); }
+.mini-form input[type="text"] { width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: var(--white); font-size: 14px; margin-bottom: 10px; font-family: inherit; transition: border-color var(--transition); }
+.mini-form input[type="text"]:focus { outline: none; border-color: var(--yellow); }
+.mini-form input[type="text"]::placeholder { color: #555; }
+.mini-form button { width: 100%; padding: 11px; background: var(--yellow); color: var(--charcoal); font-weight: 700; font-size: 14px; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: background var(--transition); }
+.mini-form button:hover { background: var(--yellow-hi); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 13px; flex-wrap: wrap; gap: 8px; }
+.footer-legal { display: flex; gap: 16px; flex-wrap: wrap; }
+.footer-legal a:hover { color: var(--yellow); }
+
+/* ============================================================
+   MOBILE FIXED BAR
+   ============================================================ */
+.mobile-booking-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 2px solid var(--yellow); padding: 12px 20px; z-index: 200; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); }
+.mbb-info .mbb-label { font-size: 13px; font-weight: 700; color: var(--charcoal); }
+.mbb-info .mbb-sub { font-size: 12px; color: var(--muted); }
+.mbb-btn { background: var(--yellow); color: var(--charcoal); font-weight: 800; font-size: 14px; padding: 11px 22px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; transition: background var(--transition); }
+.mbb-btn:hover { background: var(--yellow-hi); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .booking-card { position: static; }
+  .persona-row { grid-template-columns: repeat(3, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .format-cards { grid-template-columns: 1fr; }
+  .logistics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .outcomes-grid { grid-template-columns: 1fr; }
+  .takeaways-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+  .persona-row { grid-template-columns: repeat(3, 1fr); }
+  .enquiry-card { flex-direction: column; }
+}
+@media (max-width: 640px) {
+  .booking-card { display: none; }
+  .mobile-booking-bar { display: flex; }
+  body { padding-bottom: 76px; }
+  .trust-badges { flex-direction: column; }
+  .persona-row { grid-template-columns: repeat(2, 1fr); }
+  .takeaways-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .logistics-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="inner">
+    <div class="top-bar-left">
+      <span>📞 <a href="tel:+420517546191">+420 517 546 191</a></span>
+      <span>✉️ <a href="mailto:skoleni@ictpro.cz">skoleni@ictpro.cz</a></span>
+    </div>
+    <div class="top-bar-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('cs')" id="btn-cs">CZ</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+      </div>
+      <a href="#" class="customer-link">
+        <span class="inline-cs">Zákaznická sekce</span>
+        <span class="inline-en">Customer portal</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav-header">
+  <nav class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">ict<span>Pro</span></div>
+      <div class="logo-tagline">...Strict Professionals</div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html"><span class="inline-cs">Domů</span><span class="inline-en">Home</span></a>
+      <a href="#"><span class="inline-cs">O firmě</span><span class="inline-en">About us</span></a>
+      <a href="index.html#categories" class="active"><span class="inline-cs">ICT Kurzy</span><span class="inline-en">ICT Courses</span></a>
+      <a href="#"><span class="inline-cs">Soft Skills</span><span class="inline-en">Soft Skills</span></a>
+      <a href="#"><span class="inline-cs">Certifikace</span><span class="inline-en">Certification</span></a>
+      <a href="#"><span class="inline-cs">Videokurzy</span><span class="inline-en">Video courses</span></a>
+      <a href="#footer"><span class="inline-cs">Kontakt</span><span class="inline-en">Contact</span></a>
+      <a href="https://www.skoleni-ict.cz/Objednavka_kurzu_na_miru.aspx?K=AICL" class="nav-cta" target="_blank">
+        <span class="inline-cs">Poptat kurz</span>
+        <span class="inline-en">Enquire</span>
+      </a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Domů / Home</a>
+    <a href="#">O firmě / About</a>
+    <a href="index.html#categories">ICT Kurzy / Courses</a>
+    <a href="#">Certifikace / Certification</a>
+    <a href="#footer">Kontakt / Contact</a>
+    <a href="https://www.skoleni-ict.cz/Objednavka_kurzu_na_miru.aspx?K=AICL" class="nav-cta" target="_blank">Poptat kurz / Enquire</a>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner">
+    <a href="index.html"><span class="inline-cs">Domů</span><span class="inline-en">Home</span></a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#"><span class="inline-cs">Kategorie kurzů</span><span class="inline-en">Course categories</span></a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#"><span class="inline-cs">Umělá Inteligence</span><span class="inline-en">Artificial Intelligence</span></a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">Claude</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>AICL</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero-section">
+  <div class="hero-inner">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
+        <span class="course-code-badge">AICL</span>
+        <span class="course-category-tag">🤖 <span class="inline-cs">Umělá Inteligence · Claude · AI pro uživatele</span><span class="inline-en">Artificial Intelligence · Claude · AI for users</span></span>
+      </div>
+
+      <div data-lang="cs">
+        <h1>Claude – jak používat AI jako užitečný pracovní nástroj</h1>
+        <p class="hero-intro">AI dnes dokáže výrazně urychlit běžnou práci — od psaní textů a zpracování podkladů až po shrnutí informací a přípravu návrhů. Aby ale AI skutečně pomáhala, nestačí ji jen „zkusit". Je potřeba vědět, jak jí zadávat úkoly, jak vyhodnotit výstup a jak ji používat bezpečně. Tento kurz je postaven na praktické práci s nástrojem Claude — s důrazem na reálné výsledky, ne jen obecné principy.</p>
+      </div>
+      <div data-lang="en">
+        <h1>Claude – using AI as a genuinely useful work tool</h1>
+        <p class="hero-intro">AI can significantly speed up everyday work — from writing texts and processing materials to summarising information and drafting proposals. But for AI to truly help, it's not enough to just "try it". You need to know how to assign tasks, evaluate output, and use it safely. This course is built around practical work with Claude — focused on real results, not just general principles.</p>
+      </div>
+
+      <div class="trust-badges">
+        <span class="trust-badge"><span class="b-icon">📅</span> 2 <span class="inline-cs">dny</span><span class="inline-en">days</span></span>
+        <span class="trust-badge"><span class="b-icon">🏢</span> <span class="inline-cs">Pouze privátní výuka</span><span class="inline-en">Private training only</span></span>
+        <span class="trust-badge"><span class="b-icon">✅</span> <span class="inline-cs">Žádné tech. znalosti</span><span class="inline-en">No tech knowledge</span></span>
+        <span class="trust-badge"><span class="b-icon">🎓</span> <span class="inline-cs">Certifikát</span><span class="inline-en">Certificate</span></span>
+        <span class="trust-badge"><span class="b-icon">💻</span> <span class="inline-cs">Prezenčně / Online</span><span class="inline-en">On-site / Online</span></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: BOOKING CARD -->
+    <div class="booking-card">
+      <div class="booking-card-top">
+        <div class="label"><span class="inline-cs">Forma školení</span><span class="inline-en">Training format</span></div>
+        <div class="card-title"><span class="inline-cs">Kurz pouze na míru</span><span class="inline-en">Custom training only</span></div>
+        <div class="card-sub"><span class="inline-cs">Termíny a cenu přizpůsobíme vašim potřebám — pro firmy i jednotlivce.</span><span class="inline-en">Dates and price tailored to your needs — for companies and individuals alike.</span></div>
+      </div>
+
+      <a href="https://www.skoleni-ict.cz/Objednavka_kurzu_na_miru.aspx?K=AICL" target="_blank" class="btn-book">
+        <span class="inline-cs">Nezávazně poptat →</span>
+        <span class="inline-en">Free enquiry →</span>
+      </a>
+      <a href="mailto:skoleni@ictpro.cz" class="btn-book-outline">
+        <span class="inline-cs">Napsat dotaz</span>
+        <span class="inline-en">Send a question</span>
+      </a>
+
+      <p class="booking-note">
+        <span class="inline-cs">Dostupné prezenčně v učebně i online — upřesněte při poptávce.</span>
+        <span class="inline-en">Available in the classroom or online — specify when enquiring.</span>
+      </p>
+
+      <hr class="booking-divider">
+
+      <div class="booking-meta">
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Délka</span><span class="inline-en">Duration</span></span>
+          <span class="bm-val">2 <span class="inline-cs">dny · 9:00–17:00</span><span class="inline-en">days · 9:00–17:00</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Forma</span><span class="inline-en">Format</span></span>
+          <span class="bm-val"><span class="inline-cs">Prezenčně / Online</span><span class="inline-en">On-site / Online</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Předpoklady</span><span class="inline-en">Prerequisites</span></span>
+          <span class="bm-val" style="color:#166534"><span class="inline-cs">Žádné</span><span class="inline-en">None</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Cena</span><span class="inline-en">Price</span></span>
+          <span class="bm-val"><span class="inline-cs">Na základě poptávky</span><span class="inline-en">On request</span></span>
+        </div>
+        <div class="booking-meta-row">
+          <span class="bm-label"><span class="inline-cs">Certifikát</span><span class="inline-en">Certificate</span></span>
+          <span class="bm-val">✅ <span class="inline-cs">Ano</span><span class="inline-en">Yes</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 3 — LEARNING OUTCOMES
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Toto školení vám pomůže</span><span class="inline-en">What this course gives you</span></span>
+      <h2><span class="inline-cs">Co se naučíte</span><span class="inline-en">What you'll learn</span></h2>
+      <p><span class="inline-cs">7 praktických dovedností, které začnete využívat hned po skončení kurzu.</span><span class="inline-en">7 practical skills you'll start using right after the course ends.</span></p>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon">🧠</div>
+        <div>
+          <h3><span class="inline-cs">Praktická práce s Claude</span><span class="inline-en">Hands-on work with Claude</span></h3>
+          <p><span class="inline-cs">Osvojíte si postupy, které fungují v reálných pracovních situacích — ne jen obecné tipy.</span><span class="inline-en">You'll master techniques that work in real work situations — not just general tips.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">✍️</div>
+        <div>
+          <h3><span class="inline-cs">Lepší výstupy z AI</span><span class="inline-en">Better AI outputs</span></h3>
+          <p><span class="inline-cs">Naučíte se zadávat úkoly tak, aby dávaly použitelné výsledky — podle cíle, kontextu a formy.</span><span class="inline-en">You'll learn to frame tasks so they give usable results — shaped by goal, context, and format.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">⚡</div>
+        <div>
+          <h3><span class="inline-cs">Rychlejší příprava textů</span><span class="inline-en">Faster text preparation</span></h3>
+          <p><span class="inline-cs">E-maily, zápisky, podklady a návrhy za zlomek běžného času.</span><span class="inline-en">Emails, minutes, briefs, and drafts in a fraction of the usual time.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">📄</div>
+        <div>
+          <h3><span class="inline-cs">Shrnutí a přehled informací</span><span class="inline-en">Summarising & structuring information</span></h3>
+          <p><span class="inline-cs">Zpracování delších textů, rešerší a strukturování dat do přehledné podoby.</span><span class="inline-en">Processing longer texts, research, and turning data into clear, structured overviews.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">✅</div>
+        <div>
+          <h3><span class="inline-cs">Kontrola kvality výstupů</span><span class="inline-en">Output quality control</span></h3>
+          <p><span class="inline-cs">Získáte návyky pro ověřování a finální kontrolu AI odpovědí před jejich použitím.</span><span class="inline-en">You'll develop habits for verifying and reviewing AI responses before using them.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🛡️</div>
+        <div>
+          <h3><span class="inline-cs">Bezpečné používání AI</span><span class="inline-en">Safe AI use</span></h3>
+          <p><span class="inline-cs">Pochopíte, jaká data nevkládat, jak chránit firemní informace a jak postupovat zodpovědně.</span><span class="inline-en">You'll understand which data to keep out, how to protect company information, and how to act responsibly.</span></p>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">⚖️</div>
+        <div>
+          <h3><span class="inline-cs">Právní a etický přehled</span><span class="inline-en">Legal & ethical overview</span></h3>
+          <p><span class="inline-cs">Základní orientace v AI Actu, autorském právu, licencích a odpovědnosti za výstupy.</span><span class="inline-en">Core grounding in the AI Act, copyright, licences, and responsibility for AI-generated outputs.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4 — TARGET AUDIENCE
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Kdo by se měl zúčastnit?</span><span class="inline-en">Who should attend?</span></span>
+      <h2><span class="inline-cs">Pro koho je kurz určen</span><span class="inline-en">Who this course is for</span></h2>
+    </div>
+    <div class="persona-row">
+      <div class="persona-tile">
+        <div class="persona-emoji">🖥️</div>
+        <h3><span class="inline-cs">Běžní uživatelé</span><span class="inline-en">General users</span></h3>
+        <p><span class="inline-cs">Chtějí AI používat systematicky, ne jen náhodně</span><span class="inline-en">Want to use AI systematically, not by guesswork</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">🗂️</div>
+        <h3><span class="inline-cs">Administrativa a HR</span><span class="inline-en">Admin & HR</span></h3>
+        <p><span class="inline-cs">Dokumenty, korespondence, podklady</span><span class="inline-en">Documents, correspondence, briefings</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">📣</div>
+        <h3><span class="inline-cs">Marketing a obchod</span><span class="inline-en">Marketing & sales</span></h3>
+        <p><span class="inline-cs">Texty, koncepty, komunikační materiály</span><span class="inline-en">Copy, concepts, communications</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">📋</div>
+        <h3><span class="inline-cs">Projektoví manažeři</span><span class="inline-en">Project managers</span></h3>
+        <p><span class="inline-cs">Zápisy, shrnutí, podklady pro rozhodnutí</span><span class="inline-en">Minutes, summaries, decision briefs</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">👔</div>
+        <h3><span class="inline-cs">Vedoucí pracovníci</span><span class="inline-en">Team leads</span></h3>
+        <p><span class="inline-cs">Efektivnější AI pro sebe i tým</span><span class="inline-en">More effective AI for self and team</span></p>
+      </div>
+      <div class="persona-tile">
+        <div class="persona-emoji">💡</div>
+        <h3><span class="inline-cs">Podnikatelé a freelanceři</span><span class="inline-en">Entrepreneurs & freelancers</span></h3>
+        <p><span class="inline-cs">Zrychlení každodenní agendy pomocí AI</span><span class="inline-en">Speed up daily work with AI</span></p>
+      </div>
+    </div>
+    <div class="no-code-callout">
+      <div class="nc-icon">✅</div>
+      <div>
+        <h3><span class="inline-cs">Žádné technické ani programátorské znalosti nejsou potřeba.</span><span class="inline-en">No technical or programming knowledge required.</span></h3>
+        <p><span class="inline-cs">Stačí základní práce s počítačem a internetem. Kurz je navržen přesně pro pracovníky kancelářské a znalostní práce, kteří chtějí AI využít efektivně a bezpečně.</span><span class="inline-en">Basic computer and internet skills are all you need. The course is designed precisely for office and knowledge workers who want to use AI effectively and safely.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5 — CURRICULUM
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Program školení</span><span class="inline-en">Course programme</span></span>
+      <h2><span class="inline-cs">Obsah kurzu</span><span class="inline-en">Curriculum</span></h2>
+    </div>
+
+    <div class="curriculum-meta">
+      <div class="curriculum-stat"><span class="cs-num">7</span> <span class="inline-cs">modulů</span><span class="inline-en">modules</span></div>
+      <div class="curriculum-stat"><span class="cs-num">2</span> <span class="inline-cs">dny výuky</span><span class="inline-en">days</span></div>
+      <div class="curriculum-stat"><span class="cs-num">16</span> <span class="inline-cs">hodin praxe</span><span class="inline-en">hours</span></div>
+    </div>
+
+    <div class="accordion" id="accordion">
+
+      <div class="acc-item open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">1</div>
+          <div class="acc-title"><span class="inline-cs">Kde AI v praxi opravdu pomáhá</span><span class="inline-en">Where AI really helps in practice</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Co je generativní AI z pohledu běžného uživatele</span><span class="inline-en">What generative AI is from a regular user's perspective</span></li>
+            <li><span class="inline-cs">Jaké úkoly AI zvládá dobře a kde je potřeba opatrnost</span><span class="inline-en">Which tasks AI handles well and where caution is needed</span></li>
+            <li><span class="inline-cs">Typické příklady využití v pracovním prostředí</span><span class="inline-en">Typical use cases in a workplace setting</span></li>
+            <li><span class="inline-cs">Jak poznat, kdy AI dává smysl a kdy ne</span><span class="inline-en">How to recognise when AI makes sense — and when it doesn't</span></li>
+            <li><span class="inline-cs">Role nástroje Claude v každodenní práci s textem a informacemi</span><span class="inline-en">The role of Claude in everyday work with text and information</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">2</div>
+          <div class="acc-title"><span class="inline-cs">Zadávání úkolů v Claude: jak získat lepší výstupy</span><span class="inline-en">Assigning tasks in Claude: how to get better outputs</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Jak formulovat zadání podle cíle a kontextu</span><span class="inline-en">How to frame a request based on goal and context</span></li>
+            <li><span class="inline-cs">Co má obsahovat dobré zadání (účel, vstup, výstup, forma)</span><span class="inline-en">What a good request should contain (purpose, input, output, format)</span></li>
+            <li><span class="inline-cs">Jak si řídit styl, délku a strukturu odpovědi</span><span class="inline-en">How to control the style, length, and structure of a response</span></li>
+            <li><span class="inline-cs">Jak Claude vést krok po kroku k lepšímu výsledku</span><span class="inline-en">How to guide Claude step by step towards a better result</span></li>
+            <li><span class="inline-cs">Jak pracovat s upřesněním, opravou a iterací</span><span class="inline-en">How to work with clarification, correction, and iteration</span></li>
+            <li><span class="inline-cs">Praktické cvičení na přepis nejasných zadání do kvalitních promptů</span><span class="inline-en">Practical exercise: rewriting vague requests into quality prompts</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">3</div>
+          <div class="acc-title"><span class="inline-cs">Texty a dokumenty s využitím Claude</span><span class="inline-en">Texts and documents with Claude</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Psaní e-mailů, zpráv, zápisů, shrnutí a návrhů textů</span><span class="inline-en">Writing emails, reports, minutes, summaries, and draft texts</span></li>
+            <li><span class="inline-cs">Tvorba osnovy, argumentace a variant výstupu</span><span class="inline-en">Creating outlines, arguments, and output variations</span></li>
+            <li><span class="inline-cs">Úprava stylu textu podle cílové skupiny (formální, stručný, obchodní, srozumitelný)</span><span class="inline-en">Adapting text style for the target audience (formal, concise, business, plain language)</span></li>
+            <li><span class="inline-cs">Jak si pomocí AI připravit podklady pro prezentaci nebo meeting</span><span class="inline-en">Using AI to prepare materials for a presentation or meeting</span></li>
+            <li><span class="inline-cs">Revize a finální kontrola výstupu před použitím</span><span class="inline-en">Revision and final review of output before use</span></li>
+            <li><span class="inline-cs">Praktický trénink na běžných pracovních situacích</span><span class="inline-en">Hands-on practice with common work situations</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">4</div>
+          <div class="acc-title"><span class="inline-cs">Práce s informacemi: shrnutí, struktura, přehled</span><span class="inline-en">Working with information: summarise, structure, overview</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Jak využít Claude pro rychlé pochopení tématu</span><span class="inline-en">Using Claude for quick topic comprehension</span></li>
+            <li><span class="inline-cs">Shrnutí delších textů a vytěžení podstatných bodů</span><span class="inline-en">Summarising longer texts and extracting key points</span></li>
+            <li><span class="inline-cs">Třídění a strukturování informací do přehledné podoby</span><span class="inline-en">Organising and structuring information into clear formats</span></li>
+            <li><span class="inline-cs">Porovnání variant a příprava podkladů pro rozhodnutí</span><span class="inline-en">Comparing options and preparing decision briefs</span></li>
+            <li><span class="inline-cs">Jak rozpoznat slabá místa AI odpovědi a co ověřovat</span><span class="inline-en">How to spot weak points in an AI response and what to fact-check</span></li>
+            <li><span class="inline-cs">Cvičení zaměřená na praktickou analýzu vstupů</span><span class="inline-en">Exercises focused on practical input analysis</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">5</div>
+          <div class="acc-title"><span class="inline-cs">Kreativní podpora a návrhová práce s AI</span><span class="inline-en">Creative support and ideation with AI</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Jak využít Claude při brainstormingu a generování nápadů</span><span class="inline-en">Using Claude for brainstorming and idea generation</span></li>
+            <li><span class="inline-cs">Tvorba konceptů, variant a návrhů řešení</span><span class="inline-en">Creating concepts, alternatives, and solution proposals</span></li>
+            <li><span class="inline-cs">Příprava textových podkladů pro marketing a komunikaci</span><span class="inline-en">Preparing copy materials for marketing and communications</span></li>
+            <li><span class="inline-cs">Jak kombinovat AI s vlastním know-how, aby výsledek nebyl generický</span><span class="inline-en">How to combine AI with your own expertise so results aren't generic</span></li>
+            <li><span class="inline-cs">Kde jsou limity AI při kreativní práci</span><span class="inline-en">Where AI hits its limits in creative work</span></li>
+            <li><span class="inline-cs">Praktické ukázky využití v různých typech rolí</span><span class="inline-en">Practical examples across different role types</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">6</div>
+          <div class="acc-title"><span class="inline-cs">Bezpečnost, pravidla a odpovědnost při používání AI</span><span class="inline-en">Safety, rules, and responsibility when using AI</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Jaká data do AI nevkládat a proč</span><span class="inline-en">What data not to put into AI — and why</span></li>
+            <li><span class="inline-cs">Práce s interními, osobními a citlivými informacemi</span><span class="inline-en">Working with internal, personal, and sensitive information</span></li>
+            <li><span class="inline-cs">Odpovědnost za obsah výstupu a finální rozhodnutí</span><span class="inline-en">Responsibility for output content and final decisions</span></li>
+            <li><span class="inline-cs">Zásady bezpečného používání AI ve firemním prostředí</span><span class="inline-en">Principles for safe AI use in a corporate environment</span></li>
+            <li><span class="inline-cs">Základní orientace: autorské právo, licence, AI Act</span><span class="inline-en">Core orientation: copyright, licences, AI Act</span></li>
+            <li><span class="inline-cs">Praktická doporučení pro každodenní bezpečné používání</span><span class="inline-en">Practical recommendations for safe everyday use</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <div class="acc-num">7</div>
+          <div class="acc-title"><span class="inline-cs">Jak AI zapojit do vlastní práce dlouhodobě</span><span class="inline-en">How to embed AI into your work long-term</span></div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <ul>
+            <li><span class="inline-cs">Výběr prvních use-caseů s rychlým přínosem</span><span class="inline-en">Selecting your first use cases for quick wins</span></li>
+            <li><span class="inline-cs">Jak si nastavit jednoduché workflow s Claude</span><span class="inline-en">Setting up a simple workflow with Claude</span></li>
+            <li><span class="inline-cs">Šablony zadání pro opakující se činnosti</span><span class="inline-en">Prompt templates for recurring tasks</span></li>
+            <li><span class="inline-cs">Jak měřit přínos (čas, kvalita, konzistence výstupu)</span><span class="inline-en">How to measure impact (time, quality, output consistency)</span></li>
+            <li><span class="inline-cs">Závěrečné procvičení na vlastních scénářích účastníků</span><span class="inline-en">Final practice on participants' own scenarios</span></li>
+            <li><span class="inline-cs">Doporučení pro další samostatný rozvoj</span><span class="inline-en">Recommendations for ongoing independent development</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /accordion -->
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 6 — TAKEAWAYS
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Vaše výstupy</span><span class="inline-en">Your takeaways</span></span>
+      <h2><span class="inline-cs">Co si z kurzu odnesete</span><span class="inline-en">What you'll take away</span></h2>
+      <p><span class="inline-cs">Použitelné postupy a nástroje — ne jen poznámky z přednášky.</span><span class="inline-en">Usable techniques and tools — not just lecture notes.</span></p>
+    </div>
+    <div class="takeaways-grid">
+      <div class="takeaway-card">
+        <div class="takeaway-icon">✅</div>
+        <div>
+          <h3><span class="inline-cs">Použitelné postupy pro každodenní práci</span><span class="inline-en">Practical techniques for daily work</span></h3>
+          <p><span class="inline-cs">Ověřené metody práce s Claude přímo v každodenních úkolech.</span><span class="inline-en">Proven methods for working with Claude in everyday tasks.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">✍️</div>
+        <div>
+          <h3><span class="inline-cs">Šablony zadání pro opakující se úkoly</span><span class="inline-en">Prompt templates for recurring tasks</span></h3>
+          <p><span class="inline-cs">Připravené šablony pro e-maily, zápisy, shrnutí a návrhy textů.</span><span class="inline-en">Ready-to-use templates for emails, minutes, summaries, and draft texts.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">⚙️</div>
+        <div>
+          <h3><span class="inline-cs">Vlastní workflow s Claude</span><span class="inline-en">Your own Claude workflow</span></h3>
+          <p><span class="inline-cs">Jednoduchý pracovní postup, jak Claude začlenit do pravidelné agendy.</span><span class="inline-en">A simple process for integrating Claude into your regular workload.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">🛡️</div>
+        <div>
+          <h3><span class="inline-cs">Pravidla bezpečného používání AI ve firmě</span><span class="inline-en">Safe AI use guidelines for your workplace</span></h3>
+          <p><span class="inline-cs">Jasná pravidla pro zacházení s daty, odpovědností a firemními informacemi.</span><span class="inline-en">Clear rules for handling data, responsibility, and company information.</span></p>
+        </div>
+      </div>
+      <div class="takeaway-card">
+        <div class="takeaway-icon">🎓</div>
+        <div>
+          <h3><span class="inline-cs">Certifikát o absolvování</span><span class="inline-en">Certificate of completion</span></h3>
+          <p><span class="inline-cs">Vydán ICT Pro po úspěšném absolvování kurzu.</span><span class="inline-en">Issued by ICT Pro upon successful course completion.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 7 — FORMAT & BOOKING
+     ============================================================ -->
+<section class="section section-gray" id="booking">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Kde a jak</span><span class="inline-en">How & where</span></span>
+      <h2><span class="inline-cs">Forma výuky</span><span class="inline-en">Training format</span></h2>
+      <p><span class="inline-cs">Kurz je dostupný výhradně jako privátní školení — termín, obsah a rozsah přizpůsobíme vám.</span><span class="inline-en">This course is available exclusively as private training — dates, content, and scope tailored to you.</span></p>
+    </div>
+
+    <div class="format-cards">
+      <div class="format-card">
+        <div class="fc-icon">🏫</div>
+        <div>
+          <h3><span class="inline-cs">Prezenčně v učebně</span><span class="inline-en">In the classroom</span></h3>
+          <p><span class="inline-cs">V moderní učebně ICT Pro v Praze nebo Brně, případně přímo u vás ve firmě. Ideální pro skupiny, kde je důležitá živá interakce.</span><span class="inline-en">In a modern ICT Pro classroom in Prague or Brno, or on your company premises. Ideal for groups where live interaction matters.</span></p>
+        </div>
+      </div>
+      <div class="format-card">
+        <div class="fc-icon">💻</div>
+        <div>
+          <h3><span class="inline-cs">Online (virtuálně)</span><span class="inline-en">Online (virtual)</span></h3>
+          <p><span class="inline-cs">Hybridní formát — účastníci se připojují odkudkoli. Plnohodnotná výuka bez nutnosti cestovat. <a href="https://www.skoleni-ict.cz/slu_virtualpro.aspx" target="_blank"><span class="inline-cs">Více o online výuce →</span><span class="inline-en">Learn more about online training →</span></a></span><span class="inline-en">Hybrid format — participants join from anywhere. Full-value learning without the need to travel. <a href="https://www.skoleni-ict.cz/slu_virtualpro.aspx" target="_blank">Learn more about online training →</a></span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="enquiry-card">
+      <div class="enquiry-card-left">
+        <h3><span class="inline-cs">Nezávazná poptávka školení na míru</span><span class="inline-en">Free custom training enquiry</span></h3>
+        <p><span class="inline-cs">Kurz přizpůsobíme termínu, rozsahu i počtu účastníků. Kontaktujte nás a připravíme nabídku — bez závazku.</span><span class="inline-en">We'll adapt the course to your dates, scope, and number of participants. Contact us for a proposal — no commitment required.</span></p>
+        <div class="contact-strip">
+          <a href="mailto:skoleni@ictpro.cz">✉️ skoleni@ictpro.cz</a>
+          <a href="tel:+420517546191">📞 +420 517 546 191</a>
+        </div>
+      </div>
+      <a href="https://www.skoleni-ict.cz/Objednavka_kurzu_na_miru.aspx?K=AICL" target="_blank" class="btn-enquire">
+        <span class="inline-cs">Poptat školení →</span>
+        <span class="inline-en">Enquire →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 8 — LOGISTICS
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Praktické informace</span><span class="inline-en">Practical information</span></span>
+      <h2><span class="inline-cs">Předpoklady a organizace</span><span class="inline-en">Prerequisites & logistics</span></h2>
+    </div>
+    <div class="logistics-grid">
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Předpokládané znalosti</span><span class="inline-en">Prerequisites</span></h3>
+        <p><span class="inline-cs">Základní práce s počítačem a internetem. <strong>Žádné technické ani programátorské znalosti nejsou potřeba.</strong></span><span class="inline-en">Basic computer and internet skills. <strong>No technical or programming knowledge required.</strong></span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Časový rozvrh</span><span class="inline-en">Schedule</span></h3>
+        <p><span class="inline-cs">2 dny, 9:00–17:00 hod. (16 hodin výuky celkem)</span><span class="inline-en">2 days, 9:00–17:00 (16 hours of teaching in total)</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Forma výuky</span><span class="inline-en">Learning format</span></h3>
+        <p><span class="inline-cs">Prezenčně nebo online (hybridní formát). Upřesněte při poptávce.</span><span class="inline-en">On-site or online (hybrid format). Specify when enquiring.</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Cena kurzu</span><span class="inline-en">Course price</span></h3>
+        <p><span class="inline-cs"><strong>Na základě poptávky</strong> — přizpůsobena počtu účastníků, délce a obsahu. Kontaktujte nás pro nezávaznou nabídku.</span><span class="inline-en"><strong>On request</strong> — tailored to number of participants, duration, and content. Contact us for a no-obligation quote.</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Kód kurzu</span><span class="inline-en">Course code</span></h3>
+        <p><span style="font-family:monospace;font-size:16px;font-weight:700;background:var(--charcoal);color:var(--yellow);padding:3px 10px;border-radius:4px">AICL</span></p>
+      </div>
+      <div class="logistics-card">
+        <h3><span class="inline-cs">Certifikát</span><span class="inline-en">Certificate</span></h3>
+        <p>✅ <span class="inline-cs">Ano — vydán ICT Pro po absolvování kurzu.</span><span class="inline-en">Yes — issued by ICT Pro upon course completion.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 9 — TESTIMONIALS
+     ============================================================ -->
+<section class="section section-gray">
+  <div class="section-inner">
+    <div class="section-header centered">
+      <span class="eyebrow"><span class="inline-cs">Reference</span><span class="inline-en">Testimonials</span></span>
+      <h2><span class="inline-cs">Co říkají účastníci</span><span class="inline-en">What attendees say</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card placeholder-card" style="min-height:160px">
+        <p><span class="inline-cs">Reference bude doplněna.<br>Kontaktujte nás pro sdílení zkušeností.</span><span class="inline-en">Testimonial to be added.<br>Contact us to share your experience.</span></p>
+      </div>
+      <div class="testimonial-card placeholder-card" style="min-height:160px">
+        <p><span class="inline-cs">Reference bude doplněna.<br>Kontaktujte nás pro sdílení zkušeností.</span><span class="inline-en">Testimonial to be added.<br>Contact us to share your experience.</span></p>
+      </div>
+      <div class="testimonial-card placeholder-card" style="min-height:160px">
+        <p><span class="inline-cs">Reference bude doplněna.<br>Kontaktujte nás pro sdílení zkušeností.</span><span class="inline-en">Testimonial to be added.<br>Contact us to share your experience.</span></p>
+      </div>
+    </div>
+    <div class="partner-logos">
+      <div class="partner-logo">Microsoft</div>
+      <div class="partner-logo">Cisco</div>
+      <div class="partner-logo">VMware</div>
+      <div class="partner-logo">IBM</div>
+      <div class="partner-logo">Adobe</div>
+      <div class="partner-logo">Check Point</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 10 — RELATED COURSES
+     ============================================================ -->
+<section class="section section-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow"><span class="inline-cs">Mohlo by vás zajímat</span><span class="inline-en">You might also like</span></span>
+      <h2><span class="inline-cs">Související kurzy</span><span class="inline-en">Related courses</span></h2>
+    </div>
+    <div class="related-grid">
+      <div class="related-card">
+        <span class="related-badge">CLVC</span>
+        <h3><span class="inline-cs">Claude AI – vibe coding a tvorba aplikací bez programování</span><span class="inline-en">Claude AI – vibe coding and building apps without programming</span></h3>
+        <p><span class="inline-cs">Chcete jít dál než jen texty? Naučte se s Claudem tvořit weby, interaktivní nástroje a automatizace — stále bez kódu.</span><span class="inline-en">Want to go beyond text? Learn to build websites, interactive tools, and automations with Claude — still without code.</span></p>
+        <a href="kurz-clvc.html" class="related-link"><span class="inline-cs">Více informací →</span><span class="inline-en">Learn more →</span></a>
+      </div>
+      <div class="related-card">
+        <span class="related-badge">GPT-201</span>
+        <h3><span class="inline-cs">ChatGPT – efektivní využití pro praxi</span><span class="inline-en">ChatGPT – effective use in practice</span></h3>
+        <p><span class="inline-cs">Naučte se pracovat s ChatGPT na profesionální úrovni — od promptování po integraci do pracovních procesů.</span><span class="inline-en">Learn to use ChatGPT at a professional level — from prompting to workflow integration.</span></p>
+        <a href="#" class="related-link"><span class="inline-cs">Více informací →</span><span class="inline-en">Learn more →</span></a>
+      </div>
+      <div class="related-card">
+        <span class="related-badge">AI-105</span>
+        <h3><span class="inline-cs">AI v Excelu a Microsoft 365 Copilot</span><span class="inline-en">AI in Excel & Microsoft 365 Copilot</span></h3>
+        <p><span class="inline-cs">Využijte sílu Copilota a AI přímo v nástrojích, které denně používáte — bez přechodu na novou platformu.</span><span class="inline-en">Harness the power of Copilot and AI directly in the tools you use every day — no platform switch needed.</span></p>
+        <a href="#" class="related-link"><span class="inline-cs">Více informací →</span><span class="inline-en">Learn more →</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="logo-mark">ict<span>Pro</span></div>
+          <div class="logo-tagline">...Strict Professionals</div>
+        </div>
+        <p>📍 Příkop 843/4, 602 00 Brno</p>
+        <p>📍 Budějovická 15a, 140 00 Praha 4</p>
+        <p style="margin-top:8px"><a href="tel:+420517546191">📞 +420 517 546 191</a></p>
+        <p><a href="mailto:skoleni@ictpro.cz">✉️ skoleni@ictpro.cz</a></p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="Facebook">f</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4><span class="inline-cs">Rychlé odkazy</span><span class="inline-en">Quick links</span></h4>
+        <a href="#"><span class="inline-cs">O firmě</span><span class="inline-en">About us</span></a>
+        <a href="index.html#categories" class="footer-active"><span class="inline-cs">ICT Kurzy</span><span class="inline-en">ICT Courses</span></a>
+        <a href="#"><span class="inline-cs">Certifikace</span><span class="inline-en">Certification</span></a>
+        <a href="#">Videokurzy</a>
+        <a href="#footer"><span class="inline-cs">Kontakt</span><span class="inline-en">Contact</span></a>
+        <a href="#">GDPR</a>
+      </div>
+      <div class="footer-col">
+        <h4><span class="inline-cs">Kategorie kurzů</span><span class="inline-en">Course categories</span></h4>
+        <a href="#">Microsoft 365 &amp; Office</a>
+        <a href="#">Azure &amp; Cloud</a>
+        <a href="#"><span class="inline-cs">Programování</span><span class="inline-en">Programming</span></a>
+        <a href="#"><span class="inline-cs">Bezpečnost</span><span class="inline-en">Security</span></a>
+        <a href="#">Networking</a>
+        <a href="#" style="color:var(--yellow);font-weight:700">AI &amp; Claude ←</a>
+      </div>
+      <div class="footer-col">
+        <h4><span class="inline-cs">Zavoláme vám</span><span class="inline-en">We'll call you back</span></h4>
+        <p style="margin-bottom:14px"><span class="inline-cs">Zanechte nám kontakt a ozveme se vám do 24 hodin.</span><span class="inline-en">Leave your details and we'll get back to you within 24 hours.</span></p>
+        <form class="mini-form" onsubmit="handleForm(event)">
+          <input type="text" placeholder="Jméno / Name" required>
+          <input type="text" placeholder="Telefon / Phone" required>
+          <button type="submit"><span class="inline-cs">Odeslat →</span><span class="inline-en">Send →</span></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ICT Pro s.r.o. <span class="inline-cs">Všechna práva vyhrazena.</span><span class="inline-en">All rights reserved.</span></span>
+      <div class="footer-legal">
+        <a href="#"><span class="inline-cs">Obchodní podmínky</span><span class="inline-en">Terms</span></a>
+        <a href="#">GDPR</a>
+        <a href="#"><span class="inline-cs">Ochrana soukromí</span><span class="inline-en">Privacy</span></a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE FIXED BAR -->
+<div class="mobile-booking-bar">
+  <div class="mbb-info">
+    <div class="mbb-label"><span class="inline-cs">Školení na míru · AICL</span><span class="inline-en">Custom training · AICL</span></div>
+    <div class="mbb-sub"><span class="inline-cs">Cena na základě poptávky</span><span class="inline-en">Price on request</span></div>
+  </div>
+  <a href="https://www.skoleni-ict.cz/Objednavka_kurzu_na_miru.aspx?K=AICL" target="_blank" class="mbb-btn">
+    <span class="inline-cs">Poptat →</span><span class="inline-en">Enquire →</span>
+  </a>
+</div>
+
+<!-- ============================================================
+     JS
+     ============================================================ -->
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btn-cs').classList.toggle('active', lang === 'cs');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+function toggleAcc(header) {
+  const item = header.parentElement;
+  item.classList.toggle('open');
+}
+
+function handleForm(e) {
+  e.preventDefault();
+  alert('Děkujeme! Zavoláme vám co nejdříve.\nThank you! We will call you as soon as possible.');
+  e.target.reset();
+}
+</script>
+
+</body>
+</html>
