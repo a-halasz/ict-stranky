@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Podmínky užívání webu ICT Pro – IT školení a firemní vzdělávání na míru.">
+<title>Podmínky užívání | ICT Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --charcoal:   #1A1A1A;
+  --yellow:     #F5C400;
+  --yellow-hi:  #FFD700;
+  --white:      #FFFFFF;
+  --light:      #F4F6F9;
+  --mid:        #E8EBF0;
+  --border:     #D1D5DB;
+  --text:       #1A1A1A;
+  --muted:      #6B7280;
+  --radius:     10px;
+  --shadow:     0 4px 20px rgba(0,0,0,0.08);
+  --transition: 0.2s ease;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.6;
+  font-size: 16px;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.top-bar {
+  background: var(--charcoal);
+  color: #9CA3AF;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 2px solid var(--yellow);
+}
+.top-bar .inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.top-bar a { color: #9CA3AF; transition: color var(--transition); }
+.top-bar a:hover { color: var(--yellow); }
+.top-bar-left { display: flex; gap: 20px; align-items: center; }
+.top-bar-left span { display: flex; align-items: center; gap: 6px; }
+.top-bar-right { display: flex; gap: 16px; align-items: center; }
+.lang-switcher { display: flex; gap: 4px; }
+.lang-btn {
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #444;
+  color: #9CA3AF;
+  background: transparent;
+  transition: all var(--transition);
+}
+.lang-btn.active, .lang-btn:hover {
+  background: var(--yellow);
+  color: var(--charcoal);
+  border-color: var(--yellow);
+}
+.customer-link {
+  padding: 3px 12px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all var(--transition);
+}
+.customer-link:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav-header {
+  background: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 24px;
+}
+.logo { display: flex; flex-direction: column; line-height: 1; }
+.logo-mark {
+  font-family: 'Poppins', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--charcoal);
+  letter-spacing: -1px;
+}
+.logo-mark span { color: var(--yellow); }
+.logo-tagline {
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--charcoal);
+  border-radius: 6px;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.nav-links a:hover { background: var(--light); }
+.nav-cta {
+  background: var(--yellow) !important;
+  color: var(--charcoal) !important;
+  font-weight: 700 !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+}
+.nav-cta:hover { background: var(--yellow-hi) !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245,196,0,0.4) !important; }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  border: none;
+  background: transparent;
+}
+.hamburger span { width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all var(--transition); }
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 12px 24px 20px;
+}
+.mobile-menu a {
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--light);
+  display: block;
+}
+.mobile-menu .nav-cta {
+  margin-top: 12px;
+  background: var(--yellow) !important;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px !important;
+}
+.mobile-menu.open { display: flex; }
+
+/* ============================================================
+   PAGE HERO (minimal)
+   ============================================================ */
+.page-hero {
+  background: var(--charcoal);
+  padding: 64px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 50%, rgba(245,196,0,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.page-hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245,196,0,0.15);
+  border: 1px solid rgba(245,196,0,0.3);
+  color: var(--yellow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.page-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.page-hero .effective {
+  font-size: 14px;
+  color: #6B7280;
+}
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+.breadcrumb {
+  background: var(--light);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.breadcrumb-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.breadcrumb a { color: var(--muted); transition: color var(--transition); }
+.breadcrumb a:hover { color: var(--charcoal); }
+.breadcrumb .sep { color: var(--border); }
+
+/* ============================================================
+   CONTENT LAYOUT
+   ============================================================ */
+.content-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+.toc {
+  position: sticky;
+  top: 96px;
+}
+.toc h4 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.toc ol {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.toc ol li a {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-left: 2px solid var(--border);
+  transition: all var(--transition);
+  line-height: 1.4;
+}
+.toc ol li a:hover,
+.toc ol li a.active {
+  color: var(--charcoal);
+  border-left-color: var(--yellow);
+  background: var(--light);
+  border-radius: 0 6px 6px 0;
+}
+
+/* ============================================================
+   ARTICLE
+   ============================================================ */
+.article section {
+  margin-bottom: 52px;
+  scroll-margin-top: 100px;
+}
+.article section:last-child { margin-bottom: 0; }
+.article h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--charcoal);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--yellow);
+  display: inline-block;
+}
+.article p {
+  color: #374151;
+  margin-bottom: 14px;
+  line-height: 1.75;
+}
+.article p:last-child { margin-bottom: 0; }
+.article ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.article ul li { color: #374151; line-height: 1.7; }
+.article a {
+  color: var(--charcoal);
+  font-weight: 600;
+  border-bottom: 1px solid var(--yellow);
+  transition: border-color var(--transition);
+}
+.article a:hover { border-color: var(--charcoal); }
+.contact-box {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-top: 8px;
+}
+.contact-box p { margin-bottom: 6px; font-size: 15px; }
+.contact-box p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+body:not(.lang-en) .inline-en { display: none; }
+body.lang-en .inline-cs { display: none; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--charcoal);
+  color: #9CA3AF;
+  padding: 56px 0 0;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+  gap: 40px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #2D2D2D;
+}
+.footer-logo { margin-bottom: 16px; }
+.footer-logo .logo-tagline { color: #6B7280; }
+.footer-col h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.footer-col p { font-size: 14px; margin-bottom: 6px; line-height: 1.6; }
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  color: #9CA3AF;
+  margin-bottom: 8px;
+  transition: color var(--transition);
+}
+.footer-col a:hover { color: var(--yellow); }
+.footer-col span {
+  display: block;
+  font-size: 14px;
+  color: #9CA3AF;
+  margin-bottom: 8px;
+}
+.social-links { display: flex; gap: 10px; margin-top: 16px; }
+.social-link {
+  width: 36px; height: 36px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  color: #9CA3AF;
+  transition: all var(--transition);
+}
+.footer-bottom {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+}
+.footer-legal { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-legal span { color: #6B7280; }
+.footer-legal a { color: #6B7280; transition: color var(--transition); }
+.footer-legal a:hover { color: var(--yellow); }
+.mini-form { display: flex; flex-direction: column; gap: 10px; }
+.mini-form input {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #111;
+  color: var(--white);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.mini-form input:focus { border-color: var(--yellow); }
+.mini-form input::placeholder { color: #555; }
+.mini-form button {
+  padding: 11px;
+  background: var(--yellow);
+  color: var(--charcoal);
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background var(--transition);
+}
+.mini-form button:hover { background: var(--yellow-hi); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1023px) {
+  .content-wrap {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .toc {
+    position: static;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .toc ol { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .toc ol li a {
+    border-left: none;
+    border-bottom: 2px solid var(--border);
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .toc ol li a:hover,
+  .toc ol li a.active {
+    border-left: none;
+    border-bottom-color: var(--yellow);
+    border-radius: 4px;
+  }
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .toc { display: none; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="inner">
+    <div class="top-bar-left">
+      <span>📞 <a href="tel:+420517546191">+420 517 546 191</a></span>
+      <span>✉️ <a href="mailto:skoleni@ictpro.cz">skoleni@ictpro.cz</a></span>
+    </div>
+    <div class="top-bar-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('cs')" id="btn-cs">CZ</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+      </div>
+      <span class="customer-link">
+        <span class="inline-cs">Zákaznická sekce</span>
+        <span class="inline-en">Customer portal</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<header class="nav-header">
+  <nav class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">ict<span>Pro</span></div>
+      <div class="logo-tagline">...Strict Professionals</div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">
+        <span class="inline-cs">Domů</span>
+        <span class="inline-en">Home</span>
+      </a>
+      <a href="index.html#new-courses">
+        <span class="inline-cs">Kurzy</span>
+        <span class="inline-en">Courses</span>
+      </a>
+      <a href="index.html#contact">
+        <span class="inline-cs">Kontakt</span>
+        <span class="inline-en">Contact</span>
+      </a>
+      <a href="index.html#contact" class="nav-cta">
+        <span class="inline-cs">Nezávazná poptávka</span>
+        <span class="inline-en">Free enquiry</span>
+      </a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Domů / Home</a>
+    <a href="index.html#new-courses">Kurzy / Courses</a>
+    <a href="index.html#contact">Kontakt / Contact</a>
+    <a href="index.html#contact" class="nav-cta">Nezávazná poptávka / Free enquiry</a>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="eyebrow">
+      <span class="inline-cs">✦ Právní informace</span>
+      <span class="inline-en">✦ Legal</span>
+    </div>
+    <h1>
+      <span class="inline-cs">Podmínky užívání</span>
+      <span class="inline-en">Terms of Use</span>
+    </h1>
+    <p class="effective">
+      <span class="inline-cs">Platné od 1. ledna 2024</span>
+      <span class="inline-en">Effective from 1 January 2024</span>
+    </p>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="index.html">
+      <span class="inline-cs">Domů</span>
+      <span class="inline-en">Home</span>
+    </a>
+    <span class="sep">›</span>
+    <span>
+      <span class="inline-cs">Podmínky užívání</span>
+      <span class="inline-en">Terms of Use</span>
+    </span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content-wrap">
+
+  <!-- TABLE OF CONTENTS -->
+  <aside class="toc">
+    <h4>
+      <span class="inline-cs">Obsah</span>
+      <span class="inline-en">Contents</span>
+    </h4>
+    <ol>
+      <li><a href="#uvod">
+        <span class="inline-cs">1. Úvodní ustanovení</span>
+        <span class="inline-en">1. Introduction</span>
+      </a></li>
+      <li><a href="#pouzivani">
+        <span class="inline-cs">2. Používání webu</span>
+        <span class="inline-en">2. Use of the website</span>
+      </a></li>
+      <li><a href="#dusevni-vlastnictvi">
+        <span class="inline-cs">3. Duševní vlastnictví</span>
+        <span class="inline-en">3. Intellectual property</span>
+      </a></li>
+      <li><a href="#osobni-udaje">
+        <span class="inline-cs">4. Osobní údaje</span>
+        <span class="inline-en">4. Personal data</span>
+      </a></li>
+      <li><a href="#odpovednost">
+        <span class="inline-cs">5. Odpovědnost</span>
+        <span class="inline-en">5. Liability</span>
+      </a></li>
+      <li><a href="#cookies">
+        <span class="inline-cs">6. Cookies</span>
+        <span class="inline-en">6. Cookies</span>
+      </a></li>
+      <li><a href="#zmeny">
+        <span class="inline-cs">7. Změny podmínek</span>
+        <span class="inline-en">7. Changes</span>
+      </a></li>
+      <li><a href="#pravo">
+        <span class="inline-cs">8. Rozhodné právo</span>
+        <span class="inline-en">8. Governing law</span>
+      </a></li>
+      <li><a href="#kontakt">
+        <span class="inline-cs">9. Kontakt</span>
+        <span class="inline-en">9. Contact</span>
+      </a></li>
+    </ol>
+  </aside>
+
+  <!-- ARTICLE -->
+  <article class="article">
+
+    <section id="uvod">
+      <h2>
+        <span class="inline-cs">1. Úvodní ustanovení</span>
+        <span class="inline-en">1. Introduction</span>
+      </h2>
+      <p>
+        <span class="inline-cs">Tyto podmínky užívání upravují pravidla pro přístup a používání webových stránek provozovaných společností ICT Pro s.r.o., IČO 255 92 575, se sídlem Příkop 843/4, 602 00 Brno (dále jen „ICT Pro" nebo „provozovatel").</span>
+        <span class="inline-en">These terms of use govern the rules for accessing and using the website operated by ICT Pro s.r.o., Company ID 255 92 575, registered at Příkop 843/4, 602 00 Brno (hereinafter "ICT Pro" or "the operator").</span>
+      </p>
+      <p>
+        <span class="inline-cs">Přístupem na tyto stránky a jejich používáním vyjadřujete souhlas s níže uvedenými podmínkami. Pokud s podmínkami nesouhlasíte, prosíme, stránky nepoužívejte.</span>
+        <span class="inline-en">By accessing and using this website, you agree to the terms set out below. If you do not agree, please do not use this website.</span>
+      </p>
+    </section>
+
+    <section id="pouzivani">
+      <h2>
+        <span class="inline-cs">2. Používání webových stránek</span>
+        <span class="inline-en">2. Use of the website</span>
+      </h2>
+      <p>
+        <span class="inline-cs">Webové stránky jsou určeny výhradně k informačním účelům — k získání přehledu o nabídce IT školení, kontaktování ICT Pro a poptávce kurzů. Jakékoli jiné použití je možné pouze s předchozím písemným souhlasem provozovatele.</span>
+        <span class="inline-en">This website is intended solely for informational purposes — to browse the IT training catalogue, contact ICT Pro, and enquire about courses. Any other use requires the prior written consent of the operator.</span>
+      </p>
+      <p>
+        <span class="inline-cs">Při používání stránek je zakázáno zejména:</span>
+        <span class="inline-en">When using this website, the following are strictly prohibited:</span>
+      </p>
+      <ul>
+        <li>
+          <span class="inline-cs">Automatické stahování obsahu (scraping) bez souhlasu provozovatele</span>
+          <span class="inline-en">Automated content scraping without the operator's consent</span>
+        </li>
+        <li>
+          <span class="inline-cs">Šíření virů, malwaru nebo jiného škodlivého softwaru</span>
+          <span class="inline-en">Distributing viruses, malware, or other harmful software</span>
+        </li>
+        <li>
+          <span class="inline-cs">Vydávání se za jinou osobu nebo organizaci</span>
+          <span class="inline-en">Impersonating another person or organisation</span>
+        </li>
+        <li>
+          <span class="inline-cs">Jakékoli jednání, které by mohlo poškodit dobré jméno ICT Pro</span>
+          <span class="inline-en">Any conduct that could damage the reputation of ICT Pro</span>
+        </li>
+        <li>
+          <span class="inline-cs">Obcházení bezpečnostních opatření webu</span>
+          <span class="inline-en">Circumventing the website's security measures</span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="dusevni-vlastnictvi">
+      <h2>
+        <span class="inline-cs">3. Duševní vlastnictví</span>
+        <span class="inline-en">3. Intellectual property</span>
+      </h2>
+      <p>
+        <span class="inline-cs">Veškerý obsah těchto stránek — včetně textů, grafiky, log, fotografií, videí, struktury stránek a kurzových materiálů — je chráněn autorským právem a je výhradním vlastnictvím ICT Pro s.r.o. nebo příslušných oprávněných třetích stran.</span>
+        <span class="inline-en">All content on this website — including texts, graphics, logos, photographs, videos, page structure, and course materials — is protected by copyright and is the exclusive property of ICT Pro s.r.o. or the respective authorised third parties.</span>
+      </p>
+      <p>
+        <span class="inline-cs">Reprodukce, distribuce, úprava nebo jiné využití obsahu bez předchozího písemného souhlasu ICT Pro je zakázána. Výjimku tvoří osobní nekomerční použití v rozsahu povoleném zákonem.</span>
+        <span class="inline-en">Reproduction, distribution, modification, or other use of the content without the prior written consent of ICT Pro is prohibited. An exception applies to personal non-commercial use to the extent permitted by law.</span>
+      </p>
+    </section>
+
+    <section id="osobni-udaje">
+      <h2>
+        <span class="inline-cs">4. Ochrana osobních údajů</span>
+        <span class="inline-en">4. Personal data</span>
+      </h2>
+      <p>
+        <span class="inline-cs">ICT Pro zpracovává osobní údaje v souladu s nařízením GDPR (EU) 2016/679 a příslušnými českými právními předpisy. Osobní údaje jsou shromažďovány výhradně za účelem vyřízení poptávky, přihlášení na kurz nebo kontaktování zákazníka.</span>
+        <span class="inline-en">ICT Pro processes personal data in accordance with GDPR Regulation (EU) 2016/679 and relevant Czech legislation. Personal data is collected solely for the purpose of handling enquiries, course enrolment, or customer contact.</span>
+      </p>
+      <p>
+        <span class="inline-cs">Osobní údaje nejsou předávány třetím stranám bez Vašeho souhlasu, s výjimkou případů vyžadovaných zákonem. Pro uplatnění práv subjektu údajů (přístup, oprava, výmaz) nás prosím kontaktujte na adrese:</span>
+        <span class="inline-en">Personal data is not shared with third parties without your consent, except where required by law. To exercise your data subject rights (access, correction, erasure), please contact us at:</span>
+      </p>
+      <div class="contact-box">
+        <p>✉️ <a href="mailto:skoleni@ictpro.cz">skoleni@ictpro.cz</a></p>
+      </div>
+    </section>
+
+    <section id="odpovednost">
+      <h2>
+        <span class="inline-cs">5. Odpovědnost</span>
+        <span class="inline-en">5. Liability</span>
+      </h2>
+      <p>
+        <span class="inline-cs">Webové stránky jsou poskytovány ve stavu „tak jak jsou". ICT Pro vynakládá veškeré přiměřené úsilí k zajištění správnosti a aktuálnosti informací, avšak nezaručuje úplnost, přesnost ani vhodnost obsahu pro konkrétní účel.</span>
+        <span class="inline-en">This website is provided "as is". ICT Pro makes every reasonable effort to ensure the accuracy and currency of the information, but does not guarantee the completeness, accuracy, or suitability of the content for any particular purpose.</span>
+      </p>
+      <p>
+        <span class="inline-cs">ICT Pro nenese odpovědnost za obsah externích webových stránek, na které mohou odkazovat hypertextové odkazy umístěné na tomto webu. Dočasná nedostupnost stránek způsobená technickou údržbou nebo okolnostmi mimo kontrolu provozovatele není považována za porušení těchto podmínek.</span>
+        <span class="inline-en">ICT Pro is not responsible for the content of external websites linked from this site. Temporary unavailability caused by technical maintenance or circumstances beyond the operator's control does not constitute a breach of these terms.</span>
+      </p>
+    </section>
+
+    <section id="cookies">
+      <h2>
+        <span class="inline-cs">6. Cookies</span>
+        <span class="inline-en">6. Cookies</span>
+      </h2>
+      <p>
+        <span class="inline-cs">Tento web používá soubory cookies ke zlepšení uživatelského zážitku a analýze návštěvnosti. Používáme následující typy cookies:</span>
+        <span class="inline-en">This website uses cookies to improve user experience and analyse traffic. We use the following types of cookies:</span>
+      </p>
+      <ul>
+        <li>
+          <span class="inline-cs"><strong>Nezbytné cookies</strong> — zajišťují základní funkčnost webu (např. jazykové nastavení). Nelze je vypnout.</span>
+          <span class="inline-en"><strong>Necessary cookies</strong> — ensure basic website functionality (e.g. language setting). These cannot be disabled.</span>
+        </li>
+        <li>
+          <span class="inline-cs"><strong>Analytické cookies</strong> — anonymně sledují způsob použití webu za účelem jeho zlepšování.</span>
+          <span class="inline-en"><strong>Analytical cookies</strong> — anonymously track how the website is used in order to improve it.</span>
+        </li>
+      </ul>
+      <p>
+        <span class="inline-cs">Nepoužíváme reklamní cookies třetích stran. Cookies můžete spravovat nebo zakázat v nastavení svého prohlížeče. Upozorňujeme, že zakázání nezbytných cookies může omezit funkčnost webu.</span>
+        <span class="inline-en">We do not use third-party advertising cookies. You can manage or disable cookies in your browser settings. Please note that disabling necessary cookies may limit website functionality.</span>
+      </p>
+    </section>
+
+    <section id="zmeny">
+      <h2>
+        <span class="inline-cs">7. Změny podmínek</span>
+        <span class="inline-en">7. Changes to these terms</span>
+      </h2>
+      <p>
+        <span class="inline-cs">ICT Pro si vyhrazuje právo tyto podmínky kdykoli upravit. Aktuální verze podmínek je vždy dostupná na této stránce s uvedeným datem účinnosti. Pokračováním v používání webu po zveřejnění změn vyjadřujete souhlas s aktualizovanými podmínkami.</span>
+        <span class="inline-en">ICT Pro reserves the right to update these terms at any time. The current version of the terms is always available on this page with the stated effective date. Continued use of the website after changes are published constitutes your acceptance of the updated terms.</span>
+      </p>
+    </section>
+
+    <section id="pravo">
+      <h2>
+        <span class="inline-cs">8. Rozhodné právo</span>
+        <span class="inline-en">8. Governing law</span>
+      </h2>
+      <p>
+        <span class="inline-cs">Tyto podmínky se řídí právním řádem České republiky. Veškeré spory vyplývající z používání tohoto webu nebo v souvislosti s ním budou řešeny před příslušnými soudy České republiky s místní příslušností v Brně.</span>
+        <span class="inline-en">These terms are governed by the laws of the Czech Republic. Any disputes arising from or in connection with the use of this website shall be resolved before the competent courts of the Czech Republic, with local jurisdiction in Brno.</span>
+      </p>
+    </section>
+
+    <section id="kontakt">
+      <h2>
+        <span class="inline-cs">9. Kontakt</span>
+        <span class="inline-en">9. Contact</span>
+      </h2>
+      <p>
+        <span class="inline-cs">V případě dotazů k těmto podmínkám nás neváhejte kontaktovat:</span>
+        <span class="inline-en">If you have any questions about these terms, please do not hesitate to contact us:</span>
+      </p>
+      <div class="contact-box">
+        <p><strong>ICT Pro s.r.o.</strong></p>
+        <p>📍 Příkop 843/4, 602 00 Brno</p>
+        <p>📍 Budějovická 15a, 140 00 Praha 4</p>
+        <p>📞 <a href="tel:+420517546191">+420 517 546 191</a></p>
+        <p>✉️ <a href="mailto:skoleni@ictpro.cz">skoleni@ictpro.cz</a></p>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="logo-mark" style="color:#fff">ict<span>Pro</span></div>
+          <div class="logo-tagline">...Strict Professionals</div>
+        </div>
+        <p>
+          <span class="inline-cs">📍 Příkop 843/4, 602 00 Brno</span>
+          <span class="inline-en">📍 Příkop 843/4, 602 00 Brno</span>
+        </p>
+        <p>📍 Budějovická 15a, 140 00 Praha 4</p>
+        <p style="margin-top:8px"><a href="tel:+420517546191">📞 +420 517 546 191</a></p>
+        <p><a href="mailto:skoleni@ictpro.cz">✉️ skoleni@ictpro.cz</a></p>
+        <div class="social-links">
+          <span class="social-link" aria-label="LinkedIn">in</span>
+          <span class="social-link" aria-label="Facebook">f</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>
+          <span class="inline-cs">Rychlé odkazy</span>
+          <span class="inline-en">Quick links</span>
+        </h4>
+        <a href="index.html">
+          <span class="inline-cs">Domů</span>
+          <span class="inline-en">Home</span>
+        </a>
+        <a href="index.html#new-courses">
+          <span class="inline-cs">Kurzy</span>
+          <span class="inline-en">Courses</span>
+        </a>
+        <a href="index.html#contact">
+          <span class="inline-cs">Kontakt</span>
+          <span class="inline-en">Contact</span>
+        </a>
+        <a href="podminky.html">
+          <span class="inline-cs">Podmínky užívání</span>
+          <span class="inline-en">Terms of use</span>
+        </a>
+      </div>
+      <div class="footer-col">
+        <h4>
+          <span class="inline-cs">Naše kurzy</span>
+          <span class="inline-en">Our courses</span>
+        </h4>
+        <a href="kurz-clvc.html">VIBE Coding s AI (CLVC)</a>
+        <a href="kurz-aicl.html">
+          <span class="inline-cs">AI jako pracovní nástroj (AICL)</span>
+          <span class="inline-en">AI as a work tool (AICL)</span>
+        </a>
+      </div>
+      <div class="footer-col">
+        <h4>
+          <span class="inline-cs">Zavoláme vám</span>
+          <span class="inline-en">We'll call you back</span>
+        </h4>
+        <p style="margin-bottom:14px">
+          <span class="inline-cs">Zanechte nám kontakt a ozveme se vám do 24 hodin.</span>
+          <span class="inline-en">Leave your contact details and we'll get back to you within 24 hours.</span>
+        </p>
+        <form class="mini-form" onsubmit="handleForm(event)">
+          <input type="text" placeholder="Jméno / Name" required>
+          <input type="text" placeholder="Telefon / Phone" required>
+          <button type="submit">
+            <span class="inline-cs">Odeslat →</span>
+            <span class="inline-en">Send →</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ICT Pro s.r.o.
+        <span class="inline-cs">Všechna práva vyhrazena.</span>
+        <span class="inline-en">All rights reserved.</span>
+      </span>
+      <div class="footer-legal">
+        <a href="podminky.html">
+          <span class="inline-cs">Podmínky užívání</span>
+          <span class="inline-en">Terms of use</span>
+        </a>
+        <span>GDPR</span>
+        <span>
+          <span class="inline-cs">Ochrana soukromí</span>
+          <span class="inline-en">Privacy policy</span>
+        </span>
+        <span>Cookies</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* --- language toggle --- */
+function setLang(lang) {
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btn-cs').classList.toggle('active', lang === 'cs');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+
+/* --- hamburger --- */
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+/* --- active TOC highlight --- */
+const sections = document.querySelectorAll('.article section');
+const tocLinks = document.querySelectorAll('.toc a');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+/* --- footer form --- */
+function handleForm(e) {
+  e.preventDefault();
+  alert('Děkujeme! Zavoláme vám co nejdříve.\nThank you! We will call you as soon as possible.');
+  e.target.reset();
+}
+</script>
+
+</body>
+</html>
